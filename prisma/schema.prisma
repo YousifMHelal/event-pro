@@ -6,3 +6,507 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum UserRole {
+  staff
+  client
+}
+
+enum EventStatus {
+  draft
+  confirmed
+  in_progress
+  completed
+  cancelled
+}
+
+enum BoothStatus {
+  available
+  reserved
+  unavailable
+}
+
+enum BoothBookingStatus {
+  held
+  confirmed
+  cancelled
+}
+
+enum OpportunityStage {
+  lead
+  qualified
+  proposal
+  negotiation
+  won
+  lost
+}
+
+enum ProductionOrderStatus {
+  pending
+  in_progress
+  completed
+  cancelled
+}
+
+enum ProductionStepStatus {
+  pending
+  in_progress
+  completed
+  blocked
+}
+
+enum TicketStatus {
+  reserved
+  paid
+  cancelled
+  refunded
+}
+
+enum InvoiceStatus {
+  draft
+  sent
+  partially_paid
+  paid
+  overdue
+  cancelled
+}
+
+enum PaymentMethod {
+  cash
+  bank_transfer
+  card
+  online
+}
+
+enum PaymentStatus {
+  pending
+  completed
+  failed
+  refunded
+}
+
+enum InstallmentStatus {
+  pending
+  paid
+  overdue
+}
+
+enum DocumentType {
+  contract
+  invoice
+  receipt
+  design
+  permit
+  other
+}
+
+// ---------------------------------------------------------------------------
+// Identity
+// ---------------------------------------------------------------------------
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  nameAr       String
+  nameEn       String
+  role         UserRole
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Staff-side ownership
+  ownedOpportunities Opportunity[] @relation("OpportunityOwner")
+  uploadedDocuments  Document[]    @relation("DocumentUploadedBy")
+  recordedPayments   Payment[]     @relation("PaymentRecordedBy")
+  performedCheckIns  CheckIn[]     @relation("CheckInScannedBy")
+
+  // Client portal access
+  client   Client? @relation(fields: [clientId], references: [id])
+  clientId String?
+
+  @@index([clientId])
+}
+
+// ---------------------------------------------------------------------------
+// CRM
+// ---------------------------------------------------------------------------
+
+model Client {
+  id            String   @id @default(cuid())
+  nameAr        String
+  nameEn        String
+  companyNameAr String?
+  companyNameEn String?
+  email         String?
+  phone         String?
+  addressAr     String?
+  addressEn     String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  users         User[]
+  contacts      Contact[]
+  events        Event[]
+  boothBookings BoothBooking[]
+  opportunities Opportunity[]
+  invoices      Invoice[]
+  documents     Document[]
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  nameAr    String
+  nameEn    String
+  titleAr   String?
+  titleEn   String?
+  email     String?
+  phone     String?
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId String
+
+  @@index([clientId])
+}
+
+model Opportunity {
+  id                String           @id @default(cuid())
+  titleAr           String
+  titleEn           String
+  stage             OpportunityStage @default(lead)
+  estimatedValue    Int // halalas
+  expectedCloseDate DateTime?
+  notes             String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId String
+
+  owner   User?   @relation("OpportunityOwner", fields: [ownerId], references: [id])
+  ownerId String?
+
+  event Event?
+
+  @@index([clientId])
+  @@index([ownerId])
+  @@index([stage])
+}
+
+// ---------------------------------------------------------------------------
+// Events & Booths
+// ---------------------------------------------------------------------------
+
+model Event {
+  id            String      @id @default(cuid())
+  nameAr        String
+  nameEn        String
+  descriptionAr String?
+  descriptionEn String?
+  venueAr       String?
+  venueEn       String?
+  startDate     DateTime
+  endDate       DateTime
+  status        EventStatus @default(draft)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  client   Client @relation(fields: [clientId], references: [id])
+  clientId String
+
+  opportunity   Opportunity? @relation(fields: [opportunityId], references: [id])
+  opportunityId String?      @unique
+
+  booths           Booth[]
+  boothBookings    BoothBooking[]
+  productionOrders ProductionOrder[]
+  ticketTypes      TicketType[]
+  invoices         Invoice[]
+  documents        Document[]
+
+  @@index([clientId])
+  @@index([status])
+  @@index([startDate])
+}
+
+model Booth {
+  id            String      @id @default(cuid())
+  codeAr        String
+  codeEn        String
+  descriptionAr String?
+  descriptionEn String?
+  areaSqm       Int?
+  basePrice     Int // halalas
+  status        BoothStatus @default(available)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String
+
+  bookings BoothBooking[]
+
+  @@index([eventId])
+  @@index([status])
+}
+
+model BoothBooking {
+  id        String             @id @default(cuid())
+  status    BoothBookingStatus @default(held)
+  price     Int // halalas, agreed price (may differ from basePrice)
+  notes     String?
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  booth   Booth  @relation(fields: [boothId], references: [id], onDelete: Cascade)
+  boothId String
+
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String
+
+  client   Client @relation(fields: [clientId], references: [id])
+  clientId String
+
+  @@index([boothId])
+  @@index([eventId])
+  @@index([clientId])
+  @@index([status])
+}
+
+// ---------------------------------------------------------------------------
+// Production
+// ---------------------------------------------------------------------------
+
+model ProductionOrder {
+  id            String                @id @default(cuid())
+  titleAr       String
+  titleEn       String
+  descriptionAr String?
+  descriptionEn String?
+  status        ProductionOrderStatus @default(pending)
+  dueDate       DateTime?
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String
+
+  steps     ProductionStep[]
+  materials Material[]
+
+  @@index([eventId])
+  @@index([status])
+}
+
+model ProductionStep {
+  id          String               @id @default(cuid())
+  nameAr      String
+  nameEn      String
+  status      ProductionStepStatus @default(pending)
+  sequence    Int
+  startDate   DateTime?
+  dueDate     DateTime?
+  completedAt DateTime?
+  notes       String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  productionOrder   ProductionOrder @relation(fields: [productionOrderId], references: [id], onDelete: Cascade)
+  productionOrderId String
+
+  @@index([productionOrderId])
+  @@index([status])
+  @@index([productionOrderId, sequence])
+}
+
+model Material {
+  id         String   @id @default(cuid())
+  nameAr     String
+  nameEn     String
+  unitAr     String
+  unitEn     String
+  quantity   Int
+  unitCost   Int // halalas
+  supplierAr String?
+  supplierEn String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  productionOrder   ProductionOrder @relation(fields: [productionOrderId], references: [id], onDelete: Cascade)
+  productionOrderId String
+
+  @@index([productionOrderId])
+}
+
+// ---------------------------------------------------------------------------
+// Ticketing
+// ---------------------------------------------------------------------------
+
+model TicketType {
+  id            String   @id @default(cuid())
+  nameAr        String
+  nameEn        String
+  descriptionAr String?
+  descriptionEn String?
+  price         Int // halalas
+  quantity      Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String
+
+  tickets Ticket[]
+
+  @@index([eventId])
+}
+
+model Ticket {
+  id          String       @id @default(cuid())
+  code        String       @unique
+  holderName  String
+  holderEmail String?
+  holderPhone String?
+  status      TicketStatus @default(reserved)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
+  ticketTypeId String
+
+  checkIn CheckIn?
+
+  @@index([ticketTypeId])
+  @@index([status])
+}
+
+model CheckIn {
+  id          String   @id @default(cuid())
+  checkedInAt DateTime @default(now())
+
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId String @unique
+
+  scannedBy   User?   @relation("CheckInScannedBy", fields: [scannedById], references: [id])
+  scannedById String?
+
+  @@index([scannedById])
+}
+
+// ---------------------------------------------------------------------------
+// Finance
+// ---------------------------------------------------------------------------
+
+model Invoice {
+  id          String        @id @default(cuid())
+  number      String        @unique
+  status      InvoiceStatus @default(draft)
+  subtotal    Int // halalas
+  taxAmount   Int           @default(0) // halalas
+  totalAmount Int // halalas
+  issueDate   DateTime      @default(now())
+  dueDate     DateTime?
+  notes       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  client   Client @relation(fields: [clientId], references: [id])
+  clientId String
+
+  event   Event?  @relation(fields: [eventId], references: [id])
+  eventId String?
+
+  payments     Payment[]
+  installments Installment[]
+  documents    Document[]
+
+  @@index([clientId])
+  @@index([eventId])
+  @@index([status])
+}
+
+model Payment {
+  id        String        @id @default(cuid())
+  amount    Int // halalas
+  method    PaymentMethod
+  status    PaymentStatus @default(completed)
+  reference String?
+  paidAt    DateTime      @default(now())
+  notes     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId String
+
+  installment   Installment? @relation(fields: [installmentId], references: [id])
+  installmentId String?
+
+  recordedBy   User?   @relation("PaymentRecordedBy", fields: [recordedById], references: [id])
+  recordedById String?
+
+  @@index([invoiceId])
+  @@index([installmentId])
+  @@index([recordedById])
+  @@index([status])
+}
+
+model Installment {
+  id        String            @id @default(cuid())
+  amount    Int // halalas
+  dueDate   DateTime
+  status    InstallmentStatus @default(pending)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId String
+
+  payments Payment[]
+
+  @@index([invoiceId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+// ---------------------------------------------------------------------------
+// Documents
+// ---------------------------------------------------------------------------
+
+model Document {
+  id        String       @id @default(cuid())
+  type      DocumentType
+  titleAr   String
+  titleEn   String
+  fileUrl   String
+  mimeType  String?
+  sizeBytes Int?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  client   Client? @relation(fields: [clientId], references: [id])
+  clientId String?
+
+  event   Event?  @relation(fields: [eventId], references: [id])
+  eventId String?
+
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
+  invoiceId String?
+
+  uploadedBy   User?   @relation("DocumentUploadedBy", fields: [uploadedById], references: [id])
+  uploadedById String?
+
+  @@index([clientId])
+  @@index([eventId])
+  @@index([invoiceId])
+  @@index([uploadedById])
+  @@index([type])
+}
