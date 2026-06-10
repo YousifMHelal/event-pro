@@ -74,6 +74,50 @@
       "reports": "View analytics and generate reports here."
     }
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Live overview of events, revenue, and operations",
+    "kpi": {
+      "totalEvents": "Total Events",
+      "totalEventsDesc": "Active & upcoming",
+      "ticketSales": "Ticket Sales",
+      "ticketSalesDesc": "Paid tickets (all time)",
+      "boothRevenue": "Booth Revenue",
+      "boothRevenueDesc": "Confirmed bookings",
+      "outstandingDebt": "Outstanding Debt",
+      "outstandingDebtDesc": "Unpaid invoices",
+      "openOrders": "Open Orders",
+      "openOrdersDesc": "Pending & in-progress",
+      "monthlyCollections": "Monthly Collections",
+      "monthlyCollectionsDesc": "Payments received this month"
+    },
+    "charts": {
+      "revenueTitle": "Monthly Revenue",
+      "revenueSubtitle": "Last 6 months — completed payments (SAR)",
+      "boothTitle": "Booth Status",
+      "boothSubtitle": "All events combined",
+      "sarAxis": "SAR",
+      "noData": "No data available",
+      "boothAvailable": "Available",
+      "boothReserved": "Reserved",
+      "boothUnavailable": "Unavailable",
+      "tooltipSar": "SAR"
+    },
+    "months": {
+      "1": "Jan",
+      "2": "Feb",
+      "3": "Mar",
+      "4": "Apr",
+      "5": "May",
+      "6": "Jun",
+      "7": "Jul",
+      "8": "Aug",
+      "9": "Sep",
+      "10": "Oct",
+      "11": "Nov",
+      "12": "Dec"
+    }
+  },
   "styleGuide": {
     "title": "Design System",
     "description": "Light-mode primitives for EventPro CRM, built on Tailwind v4 tokens. Verified for Arabic (RTL) and English (LTR).",
