@@ -3,11 +3,13 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Store } from "lucide-react";
 import { getEventDetail, getEventParticipants, getClientOptions, toEventFormValues } from "@/lib/events";
+import { getBoothsForEvent } from "@/lib/booths";
 import { formatSar, formatNumber } from "@/lib/utils";
 import { EventStatusBadge } from "@/components/events/event-status-badge";
 import { RevenueProgress } from "@/components/events/revenue-progress";
 import { ParticipantsTable } from "@/components/events/participants-table";
 import { EventRowActions } from "@/components/events/event-row-actions";
+import { BoothsSection } from "@/components/events/booths-section";
 
 export default async function EventDetailPage({
   params,
@@ -21,9 +23,10 @@ export default async function EventDetailPage({
   const event = await getEventDetail(id);
   if (!event) notFound();
 
-  const [participants, clients] = await Promise.all([
+  const [participants, clients, eventBooths] = await Promise.all([
     getEventParticipants(id),
     getClientOptions(),
+    getBoothsForEvent(id),
   ]);
 
   const BackIcon = locale === "ar" ? ArrowRight : ArrowLeft;
@@ -134,6 +137,9 @@ export default async function EventDetailPage({
           <p className="text-foreground-muted text-sm">{t("detail.noRevenue")}</p>
         )}
       </div>
+
+      {/* Booths management */}
+      <BoothsSection eventId={id} booths={eventBooths} />
 
       {/* Participants */}
       <ParticipantsTable participants={participants} />

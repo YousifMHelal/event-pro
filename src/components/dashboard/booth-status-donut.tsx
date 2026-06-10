@@ -8,16 +8,20 @@ interface BoothStatusDonutProps {
   labels: {
     available: string;
     reserved: string;
-    unavailable: string;
+    contracted: string;
+    production: string;
+    delivered: string;
   };
   noDataLabel: string;
   locale: string;
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  available:   "#059669",
-  reserved:    "#2563eb",
-  unavailable: "#94a3b8",
+  available:  "#94a3b8",
+  reserved:   "#2563eb",
+  contracted: "#d97706",
+  production: "#7c3aed",
+  delivered:  "#059669",
 };
 
 export function BoothStatusDonut({ data, labels, noDataLabel, locale }: BoothStatusDonutProps) {

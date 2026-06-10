@@ -360,16 +360,16 @@ async function main() {
   // -------------------------------------------------------------------------
   // Booth floor plan for the real estate expo + tech showcase
   // -------------------------------------------------------------------------
-  const boothFloorPlans: Array<{ event: (typeof events)[number]; booths: Array<{ codeAr: string; codeEn: string; area: number; price: number; status: "available" | "reserved" | "unavailable" }> }> = [
+  const boothFloorPlans: Array<{ event: (typeof events)[number]; booths: Array<{ codeAr: string; codeEn: string; area: number; price: number; status: "available" | "reserved" | "contracted" | "production" | "delivered" }> }> = [
     {
       event: realEstateEvent,
       booths: [
-        { codeAr: "أ-01", codeEn: "A-01", area: 36, price: 18_000, status: "reserved" },
-        { codeAr: "أ-02", codeEn: "A-02", area: 36, price: 18_000, status: "reserved" },
+        { codeAr: "أ-01", codeEn: "A-01", area: 36, price: 18_000, status: "delivered" },
+        { codeAr: "أ-02", codeEn: "A-02", area: 36, price: 18_000, status: "production" },
         { codeAr: "أ-03", codeEn: "A-03", area: 24, price: 12_000, status: "available" },
-        { codeAr: "ب-01", codeEn: "B-01", area: 50, price: 25_000, status: "reserved" },
+        { codeAr: "ب-01", codeEn: "B-01", area: 50, price: 25_000, status: "contracted" },
         { codeAr: "ب-02", codeEn: "B-02", area: 50, price: 25_000, status: "available" },
-        { codeAr: "ج-01", codeEn: "C-01", area: 18, price: 9_000, status: "unavailable" },
+        { codeAr: "ج-01", codeEn: "C-01", area: 18, price: 9_000, status: "reserved" },
         { codeAr: "ج-02", codeEn: "C-02", area: 18, price: 9_000, status: "available" },
         { codeAr: "ج-03", codeEn: "C-03", area: 18, price: 9_000, status: "available" },
       ],
@@ -377,10 +377,10 @@ async function main() {
     {
       event: jarirEvent,
       booths: [
-        { codeAr: "ج1-01", codeEn: "T-01", area: 30, price: 15_000, status: "reserved" },
+        { codeAr: "ج1-01", codeEn: "T-01", area: 30, price: 15_000, status: "contracted" },
         { codeAr: "ج1-02", codeEn: "T-02", area: 30, price: 15_000, status: "reserved" },
         { codeAr: "ج1-03", codeEn: "T-03", area: 20, price: 10_000, status: "available" },
-        { codeAr: "ج1-04", codeEn: "T-04", area: 20, price: 10_000, status: "unavailable" },
+        { codeAr: "ج1-04", codeEn: "T-04", area: 20, price: 10_000, status: "available" },
       ],
     },
   ];
@@ -404,11 +404,12 @@ async function main() {
     }
   }
 
-  // Booth bookings for the reserved booths
+  // Booth bookings for the booked booths (reserved/contracted/production/delivered)
   const boothBookingSeeds = [
     { booth: boothMap[`${realEstateEvent.id}:A-01`], client: clients[1], price: 18_000, status: "confirmed" as const },
     { booth: boothMap[`${realEstateEvent.id}:A-02`], client: clients[2], price: 17_000, status: "confirmed" as const },
     { booth: boothMap[`${realEstateEvent.id}:B-01`], client: clients[4], price: 25_000, status: "confirmed" as const },
+    { booth: boothMap[`${realEstateEvent.id}:C-01`], client: clients[3], price: 9_000, status: "held" as const },
     { booth: boothMap[`${jarirEvent.id}:T-01`], client: clients[6], price: 15_000, status: "confirmed" as const },
     { booth: boothMap[`${jarirEvent.id}:T-02`], client: clients[5], price: 14_000, status: "held" as const },
   ];

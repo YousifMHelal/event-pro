@@ -12,6 +12,7 @@ const badgeVariants = cva(
         info: "border-info-border bg-info-surface text-info",
         warn: "border-warn-border bg-warn-surface text-warn",
         danger: "border-danger-border bg-danger-surface text-danger",
+        violet: "border-violet-border bg-violet-surface text-violet",
       },
     },
     defaultVariants: {
@@ -28,6 +29,7 @@ const dotVariants = cva("size-1.5 shrink-0 rounded-full", {
       info: "bg-info",
       warn: "bg-warn",
       danger: "bg-danger",
+      violet: "bg-violet",
     },
   },
   defaultVariants: {

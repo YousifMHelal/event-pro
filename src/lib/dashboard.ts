@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { BOOTH_STATUSES } from "@/lib/booths-types";
+import type { BoothStatus } from "@/generated/prisma/enums";
 
 export interface DashboardKpis {
   totalEvents: number;
@@ -15,7 +17,7 @@ export interface MonthlyRevenue {
 }
 
 export interface BoothStatusCount {
-  status: "available" | "reserved" | "unavailable";
+  status: BoothStatus;
   count: number;
 }
 
@@ -138,11 +140,7 @@ export async function getBoothStatusCounts(): Promise<BoothStatusCount[]> {
     _count: { id: true },
   });
 
-  const all: BoothStatusCount[] = [
-    { status: "available", count: 0 },
-    { status: "reserved", count: 0 },
-    { status: "unavailable", count: 0 },
-  ];
+  const all: BoothStatusCount[] = BOOTH_STATUSES.map((status) => ({ status, count: 0 }));
 
   for (const g of groups) {
     const found = all.find((a) => a.status === g.status);

@@ -9,6 +9,7 @@
     "clients": "العملاء وإدارة العلاقات",
     "booths": "الأجنحة",
     "tickets": "التذاكر",
+    "checkin": "تسجيل الحضور",
     "production": "الإنتاج",
     "finance": "المالية",
     "reports": "التقارير"
@@ -100,7 +101,9 @@
       "noData": "لا توجد بيانات",
       "boothAvailable": "متاح",
       "boothReserved": "محجوز",
-      "boothUnavailable": "غير متاح",
+      "boothContracted": "متعاقد عليه",
+      "boothProduction": "قيد التنفيذ",
+      "boothDelivered": "تم التسليم",
       "tooltipSar": "ريال"
     },
     "months": {
@@ -370,12 +373,427 @@
       "cancel": "إلغاء",
       "error": "حدث خطأ ما. يرجى التحقق من النموذج والمحاولة مرة أخرى."
     },
+    "boothsSection": {
+      "title": "الأجنحة",
+      "subtitle": "{count} جناح في هذه الفعالية",
+      "addBooth": "إضافة جناح",
+      "empty": "لا توجد أجنحة بعد. أضف أول جناح لهذه الفعالية.",
+      "columnCode": "الرمز",
+      "columnArea": "المساحة",
+      "columnBasePrice": "السعر الأساسي",
+      "columnStatus": "الحالة",
+      "columnActions": "الإجراءات",
+      "noArea": "—",
+      "delete": "حذف",
+      "deleteTitle": "حذف الجناح",
+      "deleteDescription": "هل أنت متأكد من حذف الجناح \"{code}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+      "deleteConfirm": "حذف",
+      "deleting": "جارٍ الحذف...",
+      "deleteCancel": "إلغاء",
+      "errorHasBookings": "لا يمكن حذف جناح به حجوزات نشطة. أطلق الحجز أولاً.",
+      "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+      "addDialog": {
+        "title": "إضافة جناح",
+        "description": "أضف جناحاً جديداً لمخطط الأرضية لهذه الفعالية.",
+        "codeAr": "الرمز (عربي)",
+        "codeEn": "الرمز (إنجليزي)",
+        "codeArPlaceholder": "أ-01",
+        "codeEnPlaceholder": "A-01",
+        "area": "المساحة (م²)",
+        "areaPlaceholder": "مثال: 36",
+        "basePrice": "السعر الأساسي (ريال)",
+        "descriptionAr": "الوصف (عربي)",
+        "descriptionEn": "الوصف (إنجليزي)",
+        "save": "إضافة الجناح",
+        "saving": "جارٍ الإضافة...",
+        "cancel": "إلغاء",
+        "errorDuplicate": "يوجد جناح بهذا الرمز في الفعالية بالفعل.",
+        "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+      }
+    },
     "deleteDialog": {
       "title": "حذف الفعالية",
       "description": "هل أنت متأكد من حذف \"{name}\"؟ سيؤدي ذلك أيضًا إلى حذف الأجنحة والحجوزات وأوامر الإنتاج المرتبطة بها. لا يمكن التراجع عن هذا الإجراء.",
       "confirm": "حذف",
       "deleting": "جارٍ الحذف...",
       "cancel": "إلغاء"
+    }
+  },
+  "production": {
+    "title": "الإنتاج",
+    "subtitle": "متابعة أوامر الإنتاج وخطوات سير العمل عبر جميع الفعاليات",
+    "selectEvent": "الفعالية",
+    "noEvents": "لا توجد فعاليات بها أوامر إنتاج بعد",
+    "noOrders": "لا توجد أوامر إنتاج لهذه الفعالية",
+    "ordersCount": "{count, plural, =0 {لا توجد أوامر} one {أمر واحد} two {أمران} few {# أوامر} many {# أمرًا} other {# أمر}}",
+    "workflow": "خطوات سير العمل",
+    "workflowTab": "سير العمل",
+    "materialsTab": "المواد",
+    "dueDate": "الموعد النهائي: {date}",
+    "stepsProgress": "{done}/{total} خطوة مكتملة",
+    "materialsProgress": "المواد",
+    "materialsProgress2": "{done}/{total} مادة جاهزة",
+    "materialsList": "قائمة المواد",
+    "noMaterials": "لا توجد مواد مدرجة",
+    "startStep": "ابدأ",
+    "completeStep": "اكتمل",
+    "unblockStep": "رفع الحجب",
+    "advanceStep": "تقديم الخطوة: {name}",
+    "toggleMaterial": "تبديل حالة المادة: {name}",
+    "orderStatus": {
+      "pending": "قيد الانتظار",
+      "in_progress": "قيد التنفيذ",
+      "completed": "مكتمل",
+      "cancelled": "ملغى"
+    },
+    "stepStatus": {
+      "pending": "قيد الانتظار",
+      "in_progress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "blocked": "محجوبة"
+    }
+  },
+  "tickets": {
+    "title": "التذاكر",
+    "subtitle": "إدارة أنواع التذاكر، إصدار التذاكر، ومتابعة الحضور",
+    "selectEvent": "الفعالية",
+    "noEvents": "لا توجد فعاليات بعد. أنشئ فعالية أولاً.",
+    "noTypes": "لا توجد أنواع تذاكر بعد. أضف نوعاً للبدء.",
+    "selectEventPrompt": "اختر فعالية لعرض أنواع تذاكرها",
+    "addTicketType": "إضافة نوع تذكرة",
+    "free": "مجاني",
+    "status": {
+      "reserved": "محجوزة",
+      "paid": "مدفوعة",
+      "cancelled": "ملغاة",
+      "refunded": "مستردة"
+    },
+    "card": {
+      "sold": "تم بيع {sold} من {total}",
+      "soldOut": "نفدت الكمية",
+      "remaining": "{n} متبقٍ",
+      "capacityLabel": "سعة التذاكر",
+      "issue": "إصدار تذكرة",
+      "viewTickets": "عرض التذاكر"
+    },
+    "dialog": {
+      "issueTitle": "إصدار تذكرة",
+      "holderName": "اسم الحامل",
+      "holderNamePlaceholder": "الاسم الكامل",
+      "holderEmail": "البريد الإلكتروني (اختياري)",
+      "holderEmailPlaceholder": "attendee@example.com",
+      "holderPhone": "رقم الهاتف (اختياري)",
+      "holderPhonePlaceholder": "+966 5x xxx xxxx",
+      "issue": "إصدار التذكرة",
+      "issuing": "جارٍ الإصدار...",
+      "issued": "تم إصدار التذكرة",
+      "close": "تم",
+      "cancel": "إلغاء",
+      "errorSoldOut": "نفدت الكمية لهذا النوع من التذاكر.",
+      "errorValidation": "يرجى تعبئة جميع الحقول المطلوبة.",
+      "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+    "addType": {
+      "title": "إضافة نوع تذكرة",
+      "description": "أنشئ فئة تذاكر جديدة لهذه الفعالية.",
+      "nameAr": "الاسم (عربي)",
+      "nameEn": "الاسم (إنجليزي)",
+      "nameArPlaceholder": "تذكرة VIP",
+      "nameEnPlaceholder": "VIP Ticket",
+      "descriptionAr": "الوصف (عربي)",
+      "descriptionEn": "الوصف (إنجليزي)",
+      "price": "السعر (ريال)",
+      "quantity": "السعة الإجمالية",
+      "save": "إضافة نوع التذكرة",
+      "saving": "جارٍ الإضافة...",
+      "cancel": "إلغاء",
+      "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+    "list": {
+      "title": "التذاكر المُصدرة",
+      "empty": "لا توجد تذاكر مُصدرة بعد.",
+      "checkedIn": "تم تسجيل الحضور في {date}"
+    }
+  },
+  "checkin": {
+    "title": "تسجيل الحضور",
+    "subtitle": "امسح رمز QR أو أدخل رمز التذكرة لتسجيل حضور المشاركين",
+    "scanTab": "مسح QR",
+    "manualTab": "إدخال الرمز",
+    "modeTabs": "وضع تسجيل الحضور",
+    "checking": "جارٍ التحقق...",
+    "scanner": {
+      "inactive": "الكاميرا متوقفة",
+      "starting": "جارٍ تشغيل الكاميرا...",
+      "start": "تشغيل الكاميرا",
+      "stop": "إيقاف الكاميرا",
+      "retry": "إعادة المحاولة",
+      "noCamera": "لم يتم العثور على كاميرا في هذا الجهاز.",
+      "permissionDenied": "تم رفض الوصول إلى الكاميرا. يرجى السماح بالوصول والمحاولة مرة أخرى.",
+      "error": "تعذر تشغيل الكاميرا. يرجى استخدام الإدخال اليدوي.",
+      "videoLabel": "بث كاميرا ماسح رمز QR"
+    },
+    "manual": {
+      "label": "رمز التذكرة",
+      "placeholder": "TKT-XXXXXXXXXX",
+      "submit": "تسجيل الحضور",
+      "checking": "جارٍ التحقق..."
+    },
+    "result": {
+      "success": "تم تسجيل الحضور",
+      "alreadyCheckedIn": "تم تسجيل الحضور مسبقاً",
+      "notFound": "التذكرة غير موجودة",
+      "invalidStatus": "التذكرة غير صالحة لتسجيل الحضور"
+    }
+  },
+  "booths": {
+    "title": "الأجنحة",
+    "subtitle": "مخطط الأرضية ودورة حياة الأجنحة عبر جميع الفعاليات",
+    "selectEvent": "الفعالية",
+    "noEvents": "لا توجد فعاليات بها أجنحة بعد",
+    "empty": "لا توجد أجنحة لهذه الفعالية بعد",
+    "legend": "الحالة",
+    "status": {
+      "available": "متاح",
+      "reserved": "محجوز",
+      "contracted": "متعاقد عليه",
+      "production": "قيد التنفيذ",
+      "delivered": "تم التسليم"
+    },
+    "grid": {
+      "areaSqm": "{area} م²",
+      "noArea": "—",
+      "selectBooth": "عرض تفاصيل الجناح {code}"
+    },
+    "detail": {
+      "title": "تفاصيل الجناح",
+      "selectPrompt": "اختر جناحًا لعرض تفاصيله",
+      "code": "رمز الجناح",
+      "area": "المساحة",
+      "noArea": "غير محدد",
+      "basePrice": "السعر الأساسي",
+      "status": "الحالة",
+      "description": "الوصف",
+      "noDescription": "لا يوجد وصف.",
+      "client": "العميل المخصص",
+      "noClient": "غير مخصص",
+      "bookingPrice": "السعر المتفق عليه",
+      "bookingNotes": "ملاحظات",
+      "assign": "تخصيص الجناح",
+      "reassign": "إعادة تخصيص الجناح",
+      "unassign": "تعيين كمتاح"
+    },
+    "assignDialog": {
+      "title": "تخصيص الجناح {code}",
+      "description": "حدد حالة الجناح واربطه بعميل وسعر.",
+      "status": "الحالة",
+      "client": "العميل",
+      "selectClientPlaceholder": "اختر عميلاً",
+      "price": "السعر المتفق عليه (ريال)",
+      "notes": "ملاحظات",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ...",
+      "cancel": "إلغاء",
+      "error": "حدث خطأ ما. يرجى التحقق من النموذج والمحاولة مرة أخرى.",
+      "clientRequired": "اختر عميلاً لهذه الحالة"
+    }
+  },
+  "finance": {
+    "title": "المالية",
+    "subtitle": "الفواتير والمدفوعات والدفعات وتقادم الذمم لجميع العملاء",
+    "kpi": {
+      "totalOutstanding": "إجمالي المستحقات",
+      "totalOutstandingDesc": "للفواتير المرسلة والجزئية والمتأخرة",
+      "overdueAmount": "المبلغ المتأخر",
+      "overdueAmountDesc": "{count, plural, =0 {لا توجد فواتير متأخرة} one {فاتورة متأخرة واحدة} two {فاتورتان متأخرتان} few {# فواتير متأخرة} many {# فاتورة متأخرة} other {# فاتورة متأخرة}}",
+      "collectedThisMonth": "المُحصّل هذا الشهر",
+      "collectedThisMonthDesc": "المدفوعات المكتملة هذا الشهر",
+      "totalInvoiced": "إجمالي الفواتير",
+      "totalInvoicedDesc": "جميع الفواتير غير الملغاة"
+    },
+    "tabs": {
+      "invoices": "الفواتير",
+      "aging": "تقرير التقادم",
+      "overdue": "تنبيهات التأخر"
+    },
+    "invoices": {
+      "title": "الفواتير",
+      "noInvoices": "لا توجد فواتير بعد",
+      "columnNumber": "رقم الفاتورة",
+      "columnClient": "العميل",
+      "columnEvent": "الفعالية",
+      "columnIssueDate": "تاريخ الإصدار",
+      "columnDueDate": "تاريخ الاستحقاق",
+      "columnTotal": "الإجمالي",
+      "columnPaid": "المدفوع",
+      "columnBalance": "الرصيد",
+      "columnStatus": "الحالة",
+      "columnActions": "إجراءات",
+      "noEvent": "—",
+      "noDueDate": "—",
+      "recordPayment": "تسجيل دفعة"
+    },
+    "status": {
+      "draft": "مسودة",
+      "sent": "مُرسلة",
+      "partially_paid": "مدفوعة جزئياً",
+      "paid": "مدفوعة",
+      "overdue": "متأخرة",
+      "cancelled": "ملغاة"
+    },
+    "installmentStatus": {
+      "pending": "معلقة",
+      "paid": "مدفوعة",
+      "overdue": "متأخرة"
+    },
+    "paymentMethod": {
+      "cash": "نقداً",
+      "bank_transfer": "تحويل بنكي",
+      "card": "بطاقة",
+      "online": "دفع إلكتروني"
+    },
+    "recordPayment": {
+      "title": "تسجيل دفعة",
+      "description": "تسجيل دفعة للفاتورة {number}",
+      "invoiceTotal": "إجمالي الفاتورة",
+      "alreadyPaid": "المدفوع سابقاً",
+      "remainingBalance": "الرصيد المتبقي",
+      "amount": "المبلغ (ريال)",
+      "method": "طريقة الدفع",
+      "installment": "تطبيق على دفعة",
+      "noInstallment": "بدون دفعة محددة",
+      "reference": "المرجع",
+      "referencePlaceholder": "رقم العملية، رقم الإيصال، إلخ.",
+      "notes": "ملاحظات",
+      "cancel": "إلغاء",
+      "save": "تسجيل الدفعة",
+      "saving": "جارٍ الحفظ…",
+      "errorValidation": "يرجى التحقق من المبلغ والمحاولة مرة أخرى.",
+      "errorExceedsBalance": "لا يمكن أن يتجاوز مبلغ الدفعة الرصيد المتبقي.",
+      "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+    "installments": {
+      "title": "الدفعات",
+      "none": "لا توجد دفعات",
+      "due": "تستحق في {date}"
+    },
+    "payments": {
+      "title": "سجل المدفوعات",
+      "none": "لم يتم تسجيل أي مدفوعات بعد",
+      "paidOn": "دُفعت في {date}"
+    },
+    "aging": {
+      "title": "تقرير التقادم",
+      "subtitle": "الأرصدة المستحقة مجمعة حسب عدد أيام التأخير",
+      "bucket": {
+        "current": "حالية",
+        "1-30": "١–٣٠ يوم",
+        "31-60": "٣١–٦٠ يوم",
+        "60+": "أكثر من ٦٠ يوم"
+      },
+      "amount": "المبلغ",
+      "invoiceCount": "{count, plural, =0 {لا توجد فواتير} one {فاتورة واحدة} two {فاتورتان} few {# فواتير} many {# فاتورة} other {# فاتورة}}",
+      "noOutstanding": "لا توجد أرصدة مستحقة"
+    },
+    "overdue": {
+      "title": "تنبيهات التأخر",
+      "subtitle": "الفواتير المتأخرة عن موعد استحقاقها وتحتاج للمتابعة",
+      "none": "لا توجد فواتير متأخرة — عمل رائع!",
+      "daysOverdue": "{days, plural, one {متأخرة منذ يوم واحد} two {متأخرة منذ يومين} few {متأخرة منذ # أيام} many {متأخرة منذ # يوماً} other {متأخرة منذ # يوم}}",
+      "columnDaysOverdue": "أيام التأخير",
+      "balance": "الرصيد",
+      "dueDate": "تستحق في {date}",
+      "sendReminder": "إرسال تذكير",
+      "sending": "جارٍ الإرسال…",
+      "reminderSent": "تم إرسال التذكير",
+      "errorGeneric": "تعذر إرسال التذكير. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "reports": {
+    "title": "التقارير",
+    "subtitle": "نظرة تنفيذية على الربحية والمبيعات والعمليات عبر جميع الفعاليات",
+    "kpi": {
+      "totalRevenue": "إجمالي الإيرادات",
+      "totalRevenueDesc": "مبيعات التذاكر + حجوزات الأجنحة، جميع الفعاليات",
+      "productionCost": "تكلفة الإنتاج",
+      "productionCostDesc": "تكلفة المواد عبر جميع أوامر الإنتاج",
+      "netProfit": "صافي الربح",
+      "netProfitDesc": "الإيرادات مطروحاً منها تكلفة الإنتاج",
+      "overdueAmount": "المدفوعات المتأخرة",
+      "overdueAmountDesc": "{count, plural, =0 {لا توجد فواتير متأخرة} one {فاتورة متأخرة واحدة} two {فاتورتان متأخرتان} few {# فواتير متأخرة} many {# فاتورة متأخرة} other {# فاتورة متأخرة}}"
+    },
+    "tabs": {
+      "profit": "الربح لكل فعالية",
+      "tickets": "مبيعات التذاكر",
+      "booths": "إيرادات الأجنحة",
+      "production": "تكلفة الإنتاج",
+      "overdue": "المدفوعات المتأخرة",
+      "sales": "فريق المبيعات"
+    },
+    "profit": {
+      "title": "الربح لكل فعالية",
+      "subtitle": "الإيرادات وتكلفة الإنتاج وصافي الربح حسب الفعالية",
+      "chartTitle": "الإيرادات مقابل التكلفة",
+      "revenue": "الإيرادات",
+      "cost": "التكلفة",
+      "profit": "الربح",
+      "columnEvent": "الفعالية",
+      "columnStatus": "الحالة",
+      "columnTicketRevenue": "إيرادات التذاكر",
+      "columnBoothRevenue": "إيرادات الأجنحة",
+      "columnRevenue": "إجمالي الإيرادات",
+      "columnCost": "تكلفة الإنتاج",
+      "columnProfit": "الربح",
+      "noData": "لا توجد فعاليات بعد"
+    },
+    "tickets": {
+      "title": "مبيعات التذاكر",
+      "subtitle": "التذاكر المباعة والإيرادات لكل فعالية",
+      "columnEvent": "الفعالية",
+      "columnSold": "المباع",
+      "columnCapacity": "السعة",
+      "columnSellThrough": "نسبة البيع",
+      "columnRevenue": "الإيرادات",
+      "noData": "لا توجد أنواع تذاكر بعد"
+    },
+    "booths": {
+      "title": "إيرادات الأجنحة",
+      "subtitle": "حجوزات الأجنحة المؤكدة والإيرادات لكل فعالية",
+      "columnEvent": "الفعالية",
+      "columnBooked": "المحجوز",
+      "columnTotal": "إجمالي الأجنحة",
+      "columnOccupancy": "نسبة الإشغال",
+      "columnRevenue": "الإيرادات",
+      "noData": "لا توجد أجنحة بعد"
+    },
+    "production": {
+      "title": "تكلفة الإنتاج",
+      "subtitle": "تكاليف المواد لكل فعالية عبر أوامر الإنتاج",
+      "columnEvent": "الفعالية",
+      "columnOrders": "الأوامر",
+      "columnMaterials": "المواد",
+      "columnCost": "التكلفة",
+      "noData": "لا توجد أوامر إنتاج بعد"
+    },
+    "overdue": {
+      "title": "المدفوعات المتأخرة",
+      "subtitle": "الأرصدة المتأخرة المستحقة مجمعة حسب العميل",
+      "columnClient": "العميل",
+      "columnInvoices": "الفواتير",
+      "columnAmount": "المبلغ",
+      "noData": "لا توجد مدفوعات متأخرة — عمل رائع!"
+    },
+    "sales": {
+      "title": "أداء فريق المبيعات",
+      "subtitle": "ملكية خط المبيعات ومعدل الفوز والقيمة المغلقة لكل عضو فريق",
+      "columnOwner": "عضو الفريق",
+      "columnTotal": "الفرص",
+      "columnWon": "الفوز",
+      "columnLost": "الخسارة",
+      "columnConversion": "معدل التحويل",
+      "columnWonValue": "قيمة الصفقات الفائزة",
+      "columnPipelineValue": "خط المبيعات المفتوح",
+      "noData": "لا توجد فرص مُسندة بعد"
     }
   }
 }

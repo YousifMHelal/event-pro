@@ -1,0 +1,1 @@
+ALTER TABLE "Material" ADD COLUMN "isChecked" BOOLEAN NOT NULL DEFAULT false;

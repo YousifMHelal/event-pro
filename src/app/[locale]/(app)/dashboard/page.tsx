@@ -140,7 +140,9 @@ export default async function DashboardPage() {
               labels={{
                 available: t("charts.boothAvailable"),
                 reserved: t("charts.boothReserved"),
-                unavailable: t("charts.boothUnavailable"),
+                contracted: t("charts.boothContracted"),
+                production: t("charts.boothProduction"),
+                delivered: t("charts.boothDelivered"),
               }}
               noDataLabel={t("charts.noData")}
               locale={locale}

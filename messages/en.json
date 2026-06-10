@@ -9,6 +9,7 @@
     "clients": "Clients & CRM",
     "booths": "Booths",
     "tickets": "Tickets",
+    "checkin": "Check-in",
     "production": "Production",
     "finance": "Finance",
     "reports": "Reports"
@@ -100,7 +101,9 @@
       "noData": "No data available",
       "boothAvailable": "Available",
       "boothReserved": "Reserved",
-      "boothUnavailable": "Unavailable",
+      "boothContracted": "Contracted",
+      "boothProduction": "In Production",
+      "boothDelivered": "Delivered",
       "tooltipSar": "SAR"
     },
     "months": {
@@ -370,12 +373,427 @@
       "cancel": "Cancel",
       "error": "Something went wrong. Please check the form and try again."
     },
+    "boothsSection": {
+      "title": "Booths",
+      "subtitle": "{count} booth(s) in this event",
+      "addBooth": "Add Booth",
+      "empty": "No booths yet. Add the first booth for this event.",
+      "columnCode": "Code",
+      "columnArea": "Area",
+      "columnBasePrice": "Base Price",
+      "columnStatus": "Status",
+      "columnActions": "Actions",
+      "noArea": "—",
+      "delete": "Delete",
+      "deleteTitle": "Delete Booth",
+      "deleteDescription": "Are you sure you want to delete booth \"{code}\"? This cannot be undone.",
+      "deleteConfirm": "Delete",
+      "deleting": "Deleting...",
+      "deleteCancel": "Cancel",
+      "errorHasBookings": "Cannot delete a booth with active bookings. Release the booking first.",
+      "errorGeneric": "Something went wrong. Please try again.",
+      "addDialog": {
+        "title": "Add Booth",
+        "description": "Add a new booth to this event's floor plan.",
+        "codeAr": "Code (Arabic)",
+        "codeEn": "Code (English)",
+        "codeArPlaceholder": "أ-01",
+        "codeEnPlaceholder": "A-01",
+        "area": "Area (sqm)",
+        "areaPlaceholder": "e.g. 36",
+        "basePrice": "Base Price (SAR)",
+        "descriptionAr": "Description (Arabic)",
+        "descriptionEn": "Description (English)",
+        "save": "Add Booth",
+        "saving": "Adding...",
+        "cancel": "Cancel",
+        "errorDuplicate": "A booth with that code already exists in this event.",
+        "errorGeneric": "Something went wrong. Please try again."
+      }
+    },
     "deleteDialog": {
       "title": "Delete event",
       "description": "Are you sure you want to delete \"{name}\"? This will also remove its booths, bookings, and production orders. This action cannot be undone.",
       "confirm": "Delete",
       "deleting": "Deleting...",
       "cancel": "Cancel"
+    }
+  },
+  "production": {
+    "title": "Production",
+    "subtitle": "Track production orders and workflow steps across events",
+    "selectEvent": "Event",
+    "noEvents": "No events with production orders yet",
+    "noOrders": "No production orders for this event",
+    "ordersCount": "{count, plural, =0 {No orders} one {# order} other {# orders}}",
+    "workflow": "Workflow steps",
+    "workflowTab": "Workflow",
+    "materialsTab": "Materials",
+    "dueDate": "Due {date}",
+    "stepsProgress": "{done}/{total} steps done",
+    "materialsProgress": "Materials",
+    "materialsProgress2": "{done}/{total} materials ready",
+    "materialsList": "Materials checklist",
+    "noMaterials": "No materials listed",
+    "startStep": "Start",
+    "completeStep": "Complete",
+    "unblockStep": "Unblock",
+    "advanceStep": "Advance step: {name}",
+    "toggleMaterial": "Toggle material: {name}",
+    "orderStatus": {
+      "pending": "Pending",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "stepStatus": {
+      "pending": "Pending",
+      "in_progress": "In Progress",
+      "completed": "Done",
+      "blocked": "Blocked"
+    }
+  },
+  "tickets": {
+    "title": "Tickets",
+    "subtitle": "Manage ticket types, issue tickets, and track attendance",
+    "selectEvent": "Event",
+    "noEvents": "No events yet. Create an event first.",
+    "noTypes": "No ticket types yet. Add one to get started.",
+    "selectEventPrompt": "Select an event to view its ticket types",
+    "addTicketType": "Add Ticket Type",
+    "free": "Free",
+    "status": {
+      "reserved": "Reserved",
+      "paid": "Paid",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
+    },
+    "card": {
+      "sold": "{sold} / {total} sold",
+      "soldOut": "Sold out",
+      "remaining": "{n} remaining",
+      "capacityLabel": "Ticket capacity",
+      "issue": "Issue Ticket",
+      "viewTickets": "View Tickets"
+    },
+    "dialog": {
+      "issueTitle": "Issue Ticket",
+      "holderName": "Holder Name",
+      "holderNamePlaceholder": "Full name",
+      "holderEmail": "Email (optional)",
+      "holderEmailPlaceholder": "attendee@example.com",
+      "holderPhone": "Phone (optional)",
+      "holderPhonePlaceholder": "+966 5x xxx xxxx",
+      "issue": "Issue Ticket",
+      "issuing": "Issuing...",
+      "issued": "Ticket Issued",
+      "close": "Done",
+      "cancel": "Cancel",
+      "errorSoldOut": "This ticket type is sold out.",
+      "errorValidation": "Please fill in all required fields.",
+      "errorGeneric": "Something went wrong. Please try again."
+    },
+    "addType": {
+      "title": "Add Ticket Type",
+      "description": "Create a new ticket category for this event.",
+      "nameAr": "Name (Arabic)",
+      "nameEn": "Name (English)",
+      "nameArPlaceholder": "تذكرة VIP",
+      "nameEnPlaceholder": "VIP Ticket",
+      "descriptionAr": "Description (Arabic)",
+      "descriptionEn": "Description (English)",
+      "price": "Price (SAR)",
+      "quantity": "Total Capacity",
+      "save": "Add Ticket Type",
+      "saving": "Adding...",
+      "cancel": "Cancel",
+      "errorGeneric": "Something went wrong. Please try again."
+    },
+    "list": {
+      "title": "Issued Tickets",
+      "empty": "No tickets issued yet.",
+      "checkedIn": "Checked in at {date}"
+    }
+  },
+  "checkin": {
+    "title": "Check-in",
+    "subtitle": "Scan QR codes or enter a ticket code to check in attendees",
+    "scanTab": "Scan QR",
+    "manualTab": "Enter Code",
+    "modeTabs": "Check-in mode",
+    "checking": "Verifying...",
+    "scanner": {
+      "inactive": "Camera is off",
+      "starting": "Starting camera...",
+      "start": "Start Camera",
+      "stop": "Stop Camera",
+      "retry": "Retry",
+      "noCamera": "No camera found on this device.",
+      "permissionDenied": "Camera access was denied. Please allow camera access and try again.",
+      "error": "Could not start the camera. Please try manual entry.",
+      "videoLabel": "QR code scanner camera feed"
+    },
+    "manual": {
+      "label": "Ticket Code",
+      "placeholder": "TKT-XXXXXXXXXX",
+      "submit": "Check In",
+      "checking": "Checking..."
+    },
+    "result": {
+      "success": "Checked In",
+      "alreadyCheckedIn": "Already checked in",
+      "notFound": "Ticket not found",
+      "invalidStatus": "Ticket is not valid for check-in"
+    }
+  },
+  "booths": {
+    "title": "Booths",
+    "subtitle": "Floor plan and booth lifecycle across all events",
+    "selectEvent": "Event",
+    "noEvents": "No events with booths yet",
+    "empty": "This event has no booths yet",
+    "legend": "Status",
+    "status": {
+      "available": "Available",
+      "reserved": "Reserved",
+      "contracted": "Contracted",
+      "production": "In Production",
+      "delivered": "Delivered"
+    },
+    "grid": {
+      "areaSqm": "{area} sqm",
+      "noArea": "—",
+      "selectBooth": "View details for booth {code}"
+    },
+    "detail": {
+      "title": "Booth Details",
+      "selectPrompt": "Select a booth to view its details",
+      "code": "Booth Code",
+      "area": "Area",
+      "noArea": "Not specified",
+      "basePrice": "Base Price",
+      "status": "Status",
+      "description": "Description",
+      "noDescription": "No description provided.",
+      "client": "Assigned Client",
+      "noClient": "Not assigned",
+      "bookingPrice": "Agreed Price",
+      "bookingNotes": "Notes",
+      "assign": "Assign Booth",
+      "reassign": "Reassign Booth",
+      "unassign": "Mark as Available"
+    },
+    "assignDialog": {
+      "title": "Assign Booth {code}",
+      "description": "Set the booth status and link it to a client and price.",
+      "status": "Status",
+      "client": "Client",
+      "selectClientPlaceholder": "Select a client",
+      "price": "Agreed Price (SAR)",
+      "notes": "Notes",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "error": "Something went wrong. Please check the form and try again.",
+      "clientRequired": "Select a client for this status"
+    }
+  },
+  "finance": {
+    "title": "Finance",
+    "subtitle": "Invoices, payments, installments, and aging across all clients",
+    "kpi": {
+      "totalOutstanding": "Total Outstanding",
+      "totalOutstandingDesc": "Across sent, partial & overdue invoices",
+      "overdueAmount": "Overdue Amount",
+      "overdueAmountDesc": "{count, plural, =0 {No overdue invoices} one {# overdue invoice} other {# overdue invoices}}",
+      "collectedThisMonth": "Collected This Month",
+      "collectedThisMonthDesc": "Completed payments this month",
+      "totalInvoiced": "Total Invoiced",
+      "totalInvoicedDesc": "All non-cancelled invoices"
+    },
+    "tabs": {
+      "invoices": "Invoices",
+      "aging": "Aging Report",
+      "overdue": "Overdue Alerts"
+    },
+    "invoices": {
+      "title": "Invoices",
+      "noInvoices": "No invoices yet",
+      "columnNumber": "Invoice #",
+      "columnClient": "Client",
+      "columnEvent": "Event",
+      "columnIssueDate": "Issue Date",
+      "columnDueDate": "Due Date",
+      "columnTotal": "Total",
+      "columnPaid": "Paid",
+      "columnBalance": "Balance",
+      "columnStatus": "Status",
+      "columnActions": "Actions",
+      "noEvent": "—",
+      "noDueDate": "—",
+      "recordPayment": "Record Payment"
+    },
+    "status": {
+      "draft": "Draft",
+      "sent": "Sent",
+      "partially_paid": "Partially Paid",
+      "paid": "Paid",
+      "overdue": "Overdue",
+      "cancelled": "Cancelled"
+    },
+    "installmentStatus": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "overdue": "Overdue"
+    },
+    "paymentMethod": {
+      "cash": "Cash",
+      "bank_transfer": "Bank Transfer",
+      "card": "Card",
+      "online": "Online"
+    },
+    "recordPayment": {
+      "title": "Record Payment",
+      "description": "Record a payment for invoice {number}",
+      "invoiceTotal": "Invoice Total",
+      "alreadyPaid": "Already Paid",
+      "remainingBalance": "Remaining Balance",
+      "amount": "Amount (SAR)",
+      "method": "Payment Method",
+      "installment": "Apply to Installment",
+      "noInstallment": "No specific installment",
+      "reference": "Reference",
+      "referencePlaceholder": "Transaction ID, receipt #, etc.",
+      "notes": "Notes",
+      "cancel": "Cancel",
+      "save": "Record Payment",
+      "saving": "Saving…",
+      "errorValidation": "Please check the amount and try again.",
+      "errorExceedsBalance": "Payment amount cannot exceed the remaining balance.",
+      "errorGeneric": "Something went wrong. Please try again."
+    },
+    "installments": {
+      "title": "Installments",
+      "none": "No installments",
+      "due": "Due {date}"
+    },
+    "payments": {
+      "title": "Payment History",
+      "none": "No payments recorded yet",
+      "paidOn": "Paid {date}"
+    },
+    "aging": {
+      "title": "Aging Report",
+      "subtitle": "Outstanding balances grouped by days overdue",
+      "bucket": {
+        "current": "Current",
+        "1-30": "1–30 days",
+        "31-60": "31–60 days",
+        "60+": "60+ days"
+      },
+      "amount": "Amount",
+      "invoiceCount": "{count, plural, =0 {No invoices} one {# invoice} other {# invoices}}",
+      "noOutstanding": "No outstanding balances"
+    },
+    "overdue": {
+      "title": "Overdue Alerts",
+      "subtitle": "Invoices past their due date that need follow-up",
+      "none": "No overdue invoices — great work!",
+      "daysOverdue": "{days, plural, one {# day overdue} other {# days overdue}}",
+      "columnDaysOverdue": "Days Overdue",
+      "balance": "Balance",
+      "dueDate": "Due {date}",
+      "sendReminder": "Send Reminder",
+      "sending": "Sending…",
+      "reminderSent": "Reminder sent",
+      "errorGeneric": "Could not send reminder. Please try again."
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Executive overview of profitability, sales, and operations across all events",
+    "kpi": {
+      "totalRevenue": "Total Revenue",
+      "totalRevenueDesc": "Ticket sales + booth bookings, all events",
+      "productionCost": "Production Cost",
+      "productionCostDesc": "Materials cost across all production orders",
+      "netProfit": "Net Profit",
+      "netProfitDesc": "Revenue minus production cost",
+      "overdueAmount": "Overdue Payments",
+      "overdueAmountDesc": "{count, plural, =0 {No overdue invoices} one {# overdue invoice} other {# overdue invoices}}"
+    },
+    "tabs": {
+      "profit": "Profit per Event",
+      "tickets": "Ticket Sales",
+      "booths": "Booth Revenue",
+      "production": "Production Cost",
+      "overdue": "Overdue Payments",
+      "sales": "Sales Team"
+    },
+    "profit": {
+      "title": "Profit per Event",
+      "subtitle": "Revenue, production cost, and net profit by event",
+      "chartTitle": "Revenue vs. Cost",
+      "revenue": "Revenue",
+      "cost": "Cost",
+      "profit": "Profit",
+      "columnEvent": "Event",
+      "columnStatus": "Status",
+      "columnTicketRevenue": "Ticket Revenue",
+      "columnBoothRevenue": "Booth Revenue",
+      "columnRevenue": "Total Revenue",
+      "columnCost": "Production Cost",
+      "columnProfit": "Profit",
+      "noData": "No events yet"
+    },
+    "tickets": {
+      "title": "Ticket Sales",
+      "subtitle": "Tickets sold and revenue per event",
+      "columnEvent": "Event",
+      "columnSold": "Sold",
+      "columnCapacity": "Capacity",
+      "columnSellThrough": "Sell-through",
+      "columnRevenue": "Revenue",
+      "noData": "No ticket types yet"
+    },
+    "booths": {
+      "title": "Booth Revenue",
+      "subtitle": "Confirmed booth bookings and revenue per event",
+      "columnEvent": "Event",
+      "columnBooked": "Booked",
+      "columnTotal": "Total Booths",
+      "columnOccupancy": "Occupancy",
+      "columnRevenue": "Revenue",
+      "noData": "No booths yet"
+    },
+    "production": {
+      "title": "Production Cost",
+      "subtitle": "Material costs per event across production orders",
+      "columnEvent": "Event",
+      "columnOrders": "Orders",
+      "columnMaterials": "Materials",
+      "columnCost": "Cost",
+      "noData": "No production orders yet"
+    },
+    "overdue": {
+      "title": "Overdue Payments",
+      "subtitle": "Outstanding overdue balances grouped by client",
+      "columnClient": "Client",
+      "columnInvoices": "Invoices",
+      "columnAmount": "Amount",
+      "noData": "No overdue payments — great work!"
+    },
+    "sales": {
+      "title": "Sales Team Performance",
+      "subtitle": "Pipeline ownership, win rate, and closed value per team member",
+      "columnOwner": "Team Member",
+      "columnTotal": "Opportunities",
+      "columnWon": "Won",
+      "columnLost": "Lost",
+      "columnConversion": "Conversion",
+      "columnWonValue": "Won Value",
+      "columnPipelineValue": "Open Pipeline",
+      "noData": "No assigned opportunities yet"
     }
   }
 }

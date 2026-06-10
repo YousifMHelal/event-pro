@@ -99,3 +99,87 @@ export async function deleteEventAndRedirect(locale: string, eventId: string) {
   }
   return result;
 }
+
+// ---------------------------------------------------------------------------
+// Booth management on event detail page
+// ---------------------------------------------------------------------------
+
+const addBoothSchema = z.object({
+  eventId: z.string().min(1),
+  codeAr: z.string().min(1),
+  codeEn: z.string().min(1),
+  descriptionAr: z.string().optional(),
+  descriptionEn: z.string().optional(),
+  areaSqm: z.coerce.number().int().positive().optional().or(z.literal("")),
+  basePrice: z.coerce.number().int().min(0),
+});
+
+export type AddBoothInput = z.infer<typeof addBoothSchema>;
+
+export type AddBoothState = {
+  error?: "validation" | "duplicate" | "generic";
+  success?: boolean;
+};
+
+export async function addBooth(input: AddBoothInput): Promise<AddBoothState> {
+  const parsed = addBoothSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: "validation" };
+  }
+
+  const { eventId, codeAr, codeEn, descriptionAr, descriptionEn, areaSqm, basePrice } = parsed.data;
+
+  try {
+    const existing = await prisma.booth.findFirst({
+      where: { eventId, OR: [{ codeEn }, { codeAr }] },
+    });
+    if (existing) {
+      return { error: "duplicate" };
+    }
+
+    await prisma.booth.create({
+      data: {
+        eventId,
+        codeAr,
+        codeEn,
+        descriptionAr: descriptionAr || null,
+        descriptionEn: descriptionEn || null,
+        areaSqm: areaSqm ? Number(areaSqm) : null,
+        basePrice,
+        status: "available",
+      },
+    });
+  } catch {
+    return { error: "generic" };
+  }
+
+  revalidatePath("/[locale]/(app)/events/[id]", "page");
+  revalidatePath("/[locale]/(app)/booths", "page");
+  return { success: true };
+}
+
+export type DeleteBoothState = {
+  error?: "has_bookings" | "generic";
+  success?: boolean;
+};
+
+export async function deleteBooth(boothId: string): Promise<DeleteBoothState> {
+  if (!boothId) return { error: "generic" };
+
+  try {
+    const hasActiveBookings = await prisma.boothBooking.count({
+      where: { boothId, status: { in: ["held", "confirmed"] } },
+    });
+    if (hasActiveBookings > 0) {
+      return { error: "has_bookings" };
+    }
+
+    await prisma.booth.delete({ where: { id: boothId } });
+  } catch {
+    return { error: "generic" };
+  }
+
+  revalidatePath("/[locale]/(app)/events/[id]", "page");
+  revalidatePath("/[locale]/(app)/booths", "page");
+  return { success: true };
+}

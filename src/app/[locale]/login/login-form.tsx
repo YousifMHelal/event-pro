@@ -13,8 +13,11 @@ import { loginAction, type LoginState } from "./actions";
 const initialState: LoginState = {};
 
 const DEMO_ACCOUNTS = [
-  { labelKey: "demoStaff", email: "sara.alqahtani@eventpro.sa", password: "Passw0rd!" },
-  { labelKey: "demoClient", email: "fahad@riyadh-red.sa", password: "Passw0rd!" },
+  {
+    labelKey: "demoStaff",
+    email: "sara.alqahtani@eventpro.sa",
+    password: "Passw0rd!",
+  },
 ] as const;
 
 export function LoginForm() {

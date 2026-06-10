@@ -27,7 +27,9 @@ enum EventStatus {
 enum BoothStatus {
   available
   reserved
-  unavailable
+  contracted
+  production
+  delivered
 }
 
 enum BoothBookingStatus {
@@ -335,6 +337,7 @@ model Material {
   unitEn     String
   quantity   Int
   unitCost   Int // halalas
+  isChecked  Boolean  @default(false)
   supplierAr String?
   supplierEn String?
   createdAt  DateTime @default(now())
