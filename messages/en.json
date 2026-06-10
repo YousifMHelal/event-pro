@@ -6,9 +6,12 @@
   "nav": {
     "dashboard": "Dashboard",
     "events": "Events",
-    "clients": "Clients",
-    "bookings": "Bookings",
-    "settings": "Settings"
+    "clients": "Clients & CRM",
+    "booths": "Booths",
+    "tickets": "Tickets",
+    "production": "Production",
+    "finance": "Finance",
+    "reports": "Reports"
   },
   "common": {
     "loading": "Loading...",
@@ -26,6 +29,33 @@
   "home": {
     "title": "Welcome to EventPro",
     "description": "An internal platform for managing events and clients."
+  },
+  "app": {
+    "sidebar": {
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar",
+      "toggle": "Toggle navigation menu",
+      "close": "Close navigation menu"
+    },
+    "userMenu": {
+      "label": "User menu",
+      "profile": "Profile",
+      "settings": "Settings",
+      "signOut": "Sign out",
+      "defaultName": "Staff Member",
+      "defaultRole": "Staff"
+    },
+    "placeholder": {
+      "comingSoon": "This module is coming soon.",
+      "dashboard": "An overview of your events, bookings, and key metrics will appear here.",
+      "events": "Manage events, schedules, and venues from this page.",
+      "clients": "Manage client profiles, contacts, and CRM activity here.",
+      "booths": "Configure exhibition booths and floor plans here.",
+      "tickets": "Manage ticket types, pricing, and sales here.",
+      "production": "Track production tasks, vendors, and logistics here.",
+      "finance": "Manage invoices, payments, and budgets here.",
+      "reports": "View analytics and generate reports here."
+    }
   },
   "styleGuide": {
     "title": "Design System",
