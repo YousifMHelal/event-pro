@@ -1,0 +1,30 @@
+{
+  "brand": {
+    "name": "EventPro",
+    "tagline": "Event Management System"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "events": "Events",
+    "clients": "Clients",
+    "bookings": "Bookings",
+    "settings": "Settings"
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back"
+  },
+  "localeSwitcher": {
+    "label": "Language",
+    "ar": "العربية",
+    "en": "English"
+  },
+  "home": {
+    "title": "Welcome to EventPro",
+    "description": "An internal platform for managing events and clients."
+  }
+}
