@@ -26,5 +26,112 @@
   "home": {
     "title": "Welcome to EventPro",
     "description": "An internal platform for managing events and clients."
+  },
+  "styleGuide": {
+    "title": "Design System",
+    "description": "Light-mode primitives for EventPro CRM, built on Tailwind v4 tokens. Verified for Arabic (RTL) and English (LTR).",
+    "sections": {
+      "colors": "Colors",
+      "typography": "Typography",
+      "buttons": "Buttons",
+      "badges": "Badges & Status Pills",
+      "cards": "Cards",
+      "form": "Form Controls",
+      "table": "Table",
+      "tabs": "Tabs",
+      "dialog": "Dialog",
+      "skeleton": "Skeleton"
+    },
+    "colorTokens": {
+      "background": "Background",
+      "surface": "Surface",
+      "surfaceMuted": "Surface Muted",
+      "primary": "Primary",
+      "accent": "Accent",
+      "neutral": "Neutral",
+      "success": "Success",
+      "info": "Info",
+      "warn": "Warning",
+      "danger": "Danger"
+    },
+    "typographyScale": {
+      "h1": "Heading 1 / 4xl",
+      "h2": "Heading 2 / 3xl",
+      "h3": "Heading 3 / 2xl",
+      "h4": "Heading 4 / xl",
+      "body": "Body text uses the base size with comfortable line height for both Arabic and Latin scripts.",
+      "small": "Small / muted text for captions and helper copy.",
+      "fontNote": "Cairo for Arabic, Inter for English — switched automatically per locale."
+    },
+    "buttonLabels": {
+      "primary": "Primary",
+      "secondary": "Secondary",
+      "outline": "Outline",
+      "ghost": "Ghost",
+      "destructive": "Destructive",
+      "loading": "Loading",
+      "disabled": "Disabled",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
+    "badgeLabels": {
+      "neutral": "Draft",
+      "success": "Confirmed",
+      "info": "Pending",
+      "warn": "Action Needed",
+      "danger": "Cancelled"
+    },
+    "cardDemo": {
+      "title": "Riyadh Tech Summit",
+      "description": "Annual conference at the King Abdulaziz Center.",
+      "date": "Date",
+      "venue": "Venue",
+      "venueValue": "King Abdulaziz Center, Riyadh",
+      "budget": "Budget",
+      "viewDetails": "View Details"
+    },
+    "formDemo": {
+      "eventName": "Event Name",
+      "eventNamePlaceholder": "e.g. Riyadh Tech Summit",
+      "eventType": "Event Type",
+      "selectPlaceholder": "Select an option",
+      "eventTypes": {
+        "conference": "Conference",
+        "wedding": "Wedding",
+        "exhibition": "Exhibition",
+        "workshop": "Workshop"
+      },
+      "email": "Email",
+      "emailInvalid": "Please enter a valid email address",
+      "submit": "Submit"
+    },
+    "tableDemo": {
+      "client": "Client",
+      "event": "Event",
+      "date": "Date",
+      "amount": "Amount",
+      "status": "Status",
+      "rows": {
+        "row1": { "client": "Faisal Al-Otaibi", "event": "Wedding Reception" },
+        "row2": { "client": "Noura Al-Harbi", "event": "Product Launch" },
+        "row3": { "client": "Sara Al-Qahtani", "event": "Annual Gala" }
+      }
+    },
+    "tabsDemo": {
+      "overview": "Overview",
+      "clients": "Clients",
+      "billing": "Billing",
+      "overviewContent": "A snapshot of upcoming events and recent activity.",
+      "clientsContent": "Manage client profiles, contacts, and history.",
+      "billingContent": "Invoices, payments, and outstanding balances."
+    },
+    "dialogDemo": {
+      "open": "Open Dialog",
+      "title": "Cancel Booking",
+      "description": "This will cancel the booking and notify the client. This action cannot be undone.",
+      "confirm": "Cancel Booking",
+      "back": "Go Back"
+    }
   }
 }
