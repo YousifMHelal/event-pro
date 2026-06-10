@@ -110,7 +110,7 @@ export function LoginForm() {
         {isPending ? t("submitting") : t("submit")}
       </Button>
 
-      {process.env.NODE_ENV !== "production" && (
+
         <div className="grid gap-2 border-t border-border pt-4">
           <p className="text-xs text-foreground-muted">{t("demoCredentials")}</p>
           <div className="flex flex-wrap gap-2">
@@ -127,7 +127,7 @@ export function LoginForm() {
             ))}
           </div>
         </div>
-      )}
+
     </form>
   );
 }
