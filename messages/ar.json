@@ -204,9 +204,18 @@
       "amount": "المبلغ",
       "status": "الحالة",
       "rows": {
-        "row1": { "client": "فيصل العتيبي", "event": "حفل زفاف" },
-        "row2": { "client": "نورة الحربي", "event": "إطلاق منتج" },
-        "row3": { "client": "سارة القحطاني", "event": "حفل سنوي" }
+        "row1": {
+          "client": "فيصل العتيبي",
+          "event": "حفل زفاف"
+        },
+        "row2": {
+          "client": "نورة الحربي",
+          "event": "إطلاق منتج"
+        },
+        "row3": {
+          "client": "سارة القحطاني",
+          "event": "حفل سنوي"
+        }
       }
     },
     "tabsDemo": {
@@ -223,6 +232,65 @@
       "description": "سيؤدي هذا إلى إلغاء الحجز وإشعار العميل. لا يمكن التراجع عن هذا الإجراء.",
       "confirm": "إلغاء الحجز",
       "back": "رجوع"
+    }
+  },
+  "crm": {
+    "title": "العملاء وإدارة العلاقات",
+    "subtitle": "إدارة مسار المبيعات من أول تواصل حتى الإغلاق",
+    "stages": {
+      "lead": "جديد",
+      "qualified": "تم التواصل",
+      "proposal": "تم التسعير",
+      "negotiation": "قيد التفاوض",
+      "won": "تم الفوز",
+      "lost": "خسارة"
+    },
+    "stats": {
+      "totalOpportunities": "إجمالي الفرص",
+      "pipelineValue": "قيمة المسار",
+      "conversionRate": "معدل التحويل",
+      "avgCycle": "متوسط مدة الدورة",
+      "avgCycleDays": "{count, plural, =0 {٠ أيام} one {يوم واحد} two {يومان} few {# أيام} many {# يومًا} other {# يوم}}",
+      "avgCycleNoData": "—"
+    },
+    "card": {
+      "noOwner": "غير مسند",
+      "expectedClose": "تاريخ الإغلاق المتوقع",
+      "noCloseDate": "لم يُحدد تاريخ"
+    },
+    "board": {
+      "empty": "لا توجد فرص في هذه المرحلة",
+      "addOpportunity": "إضافة فرصة",
+      "moveError": "تعذر نقل الفرصة. حاول مرة أخرى.",
+      "moveAnnouncement": "تم نقل {title} إلى {stage}"
+    },
+    "dialog": {
+      "createTitle": "فرصة جديدة",
+      "editTitle": "تعديل الفرصة",
+      "description": "أضف أو حدّث بيانات العميل والفرصة في مسار المبيعات.",
+      "clientSection": "العميل",
+      "opportunitySection": "الفرصة",
+      "selectClient": "اختر عميلاً موجودًا",
+      "selectClientPlaceholder": "اختر عميلاً أو أنشئ عميلاً جديدًا",
+      "newClient": "عميل جديد",
+      "nameAr": "الاسم (عربي)",
+      "nameEn": "الاسم (إنجليزي)",
+      "companyNameAr": "اسم الشركة (عربي)",
+      "companyNameEn": "اسم الشركة (إنجليزي)",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "titleAr": "العنوان (عربي)",
+      "titleEn": "العنوان (إنجليزي)",
+      "stage": "المرحلة",
+      "estimatedValue": "القيمة التقديرية (ريال)",
+      "expectedCloseDate": "تاريخ الإغلاق المتوقع",
+      "owner": "المسؤول",
+      "noOwner": "غير مسند",
+      "notes": "ملاحظات",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ...",
+      "cancel": "إلغاء",
+      "error": "حدث خطأ ما. يرجى التحقق من النموذج والمحاولة مرة أخرى."
     }
   }
 }

@@ -164,7 +164,7 @@ async function main() {
     },
   ];
 
-  const clients = [];
+  const clients: Awaited<ReturnType<typeof prisma.client.create>>[] = [];
   for (const c of clientSeeds) {
     const client = await prisma.client.create({
       data: {
