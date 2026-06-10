@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ChevronsLeft, ChevronsRight, X } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -26,9 +27,14 @@ export function Sidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMobil
           className="flex min-w-0 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           onClick={onCloseMobile}
         >
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary text-sm font-bold text-primary-foreground">
-            E
-          </span>
+          <Image
+            src="/logo.png"
+            alt=""
+            width={32}
+            height={32}
+            className="size-8 shrink-0 rounded-md object-contain"
+            priority
+          />
           {!collapsed && (
             <span className="truncate text-base font-semibold text-foreground">
               {t("brand.name")}

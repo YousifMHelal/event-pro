@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: eventpro
+      POSTGRES_PASSWORD: eventpro
+      POSTGRES_DB: eventpro
+    ports:
+      - "5432:5432"
+    volumes:
+      - eventpro_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  eventpro_postgres_data:

@@ -19,6 +19,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "EventPro CRM",
   description: "EventPro CRM",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export function generateStaticParams() {
