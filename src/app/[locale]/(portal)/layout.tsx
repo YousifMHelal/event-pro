@@ -1,12 +1,12 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { AppShell } from "@/components/shell/app-shell";
+import { PortalShell } from "@/components/shell/portal-shell";
 
-export default async function AppLayout({ children }: { children: React.ReactNode }) {
+export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   const locale = await getLocale();
-  const t = await getTranslations("app.userMenu");
+  const t = await getTranslations("portal");
 
   const dbUser = session?.user?.id
     ? await prisma.user.findUnique({
@@ -15,9 +15,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       })
     : null;
 
-  const name = dbUser ? (locale === "ar" ? dbUser.nameAr : dbUser.nameEn) : t("defaultName");
+  const name = dbUser ? (locale === "ar" ? dbUser.nameAr : dbUser.nameEn) : "";
 
   return (
-    <AppShell user={{ name, roleLabel: t("defaultRole") }}>{children}</AppShell>
+    <PortalShell user={{ name, roleLabel: t("userRole") }}>{children}</PortalShell>
   );
 }

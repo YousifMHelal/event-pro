@@ -4,8 +4,14 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { ChevronDown, LogOut, Settings, UserCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { signOutAction } from "@/lib/auth-actions";
 
-export function UserMenu() {
+interface UserMenuProps {
+  name: string;
+  roleLabel: string;
+}
+
+export function UserMenu({ name, roleLabel }: UserMenuProps) {
   const t = useTranslations("app.userMenu");
   const [open, setOpen] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -47,15 +53,15 @@ export function UserMenu() {
         className="flex items-center gap-2 rounded-full p-1 transition-colors duration-150 hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       >
         <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
-          {t("defaultName")
+          {name
             .split(" ")
             .map((part) => part[0])
             .slice(0, 2)
             .join("")}
         </span>
         <span className="hidden text-start sm:flex sm:flex-col sm:leading-tight">
-          <span className="text-sm font-medium text-foreground">{t("defaultName")}</span>
-          <span className="text-xs text-foreground-muted">{t("defaultRole")}</span>
+          <span className="text-sm font-medium text-foreground">{name}</span>
+          <span className="text-xs text-foreground-muted">{roleLabel}</span>
         </span>
         <ChevronDown
           className={cn("hidden size-4 text-foreground-muted transition-transform duration-150 sm:block", open && "rotate-180")}
@@ -81,15 +87,16 @@ export function UserMenu() {
             </button>
           ))}
           <div className="my-1 h-px bg-border" role="separator" />
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => setOpen(false)}
-            className="flex w-full cursor-pointer items-center gap-2 rounded-sm px-2 py-2 text-start text-sm text-danger transition-colors duration-150 hover:bg-danger-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
-          >
-            <LogOut className="size-4" aria-hidden="true" />
-            {t("signOut")}
-          </button>
+          <form action={signOutAction}>
+            <button
+              type="submit"
+              role="menuitem"
+              className="flex w-full cursor-pointer items-center gap-2 rounded-sm px-2 py-2 text-start text-sm text-danger transition-colors duration-150 hover:bg-danger-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+            >
+              <LogOut className="size-4" aria-hidden="true" />
+              {t("signOut")}
+            </button>
+          </form>
         </div>
       )}
     </div>

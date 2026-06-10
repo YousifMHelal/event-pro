@@ -26,9 +26,26 @@
     "ar": "العربية",
     "en": "English"
   },
-  "home": {
-    "title": "مرحباً بك في إيفنت برو",
-    "description": "منصة داخلية لإدارة الفعاليات والعملاء."
+  "login": {
+    "title": "تسجيل الدخول",
+    "subtitle": "أدخل بيانات حسابك للوصول إلى حسابك.",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "you@eventpro.sa",
+    "password": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "submit": "تسجيل الدخول",
+    "submitting": "جارٍ تسجيل الدخول...",
+    "errorInvalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    "errorGeneric": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "demoCredentials": "حسابات تجريبية (للتطوير فقط)",
+    "demoStaff": "تعبئة حساب الموظف",
+    "demoClient": "تعبئة حساب العميل"
+  },
+  "portal": {
+    "title": "بوابة العملاء",
+    "welcome": "مرحباً بعودتك",
+    "comingSoon": "ستظهر هنا فعالياتك وفواتيرك ومستنداتك قريباً.",
+    "userRole": "عميل"
   },
   "app": {
     "sidebar": {

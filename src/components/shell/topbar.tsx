@@ -7,9 +7,10 @@ import { UserMenu } from "./user-menu";
 
 interface TopbarProps {
   onOpenMobileMenu: () => void;
+  user: { name: string; roleLabel: string };
 }
 
-export function Topbar({ onOpenMobileMenu }: TopbarProps) {
+export function Topbar({ onOpenMobileMenu, user }: TopbarProps) {
   const t = useTranslations("app.sidebar");
 
   return (
@@ -26,7 +27,7 @@ export function Topbar({ onOpenMobileMenu }: TopbarProps) {
       <div className="flex-1" />
 
       <LocaleSwitcher />
-      <UserMenu />
+      <UserMenu name={user.name} roleLabel={user.roleLabel} />
     </header>
   );
 }

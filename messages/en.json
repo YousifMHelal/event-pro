@@ -26,9 +26,26 @@
     "ar": "العربية",
     "en": "English"
   },
-  "home": {
-    "title": "Welcome to EventPro",
-    "description": "An internal platform for managing events and clients."
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Enter your credentials to access your account.",
+    "email": "Email",
+    "emailPlaceholder": "you@eventpro.sa",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "submit": "Sign in",
+    "submitting": "Signing in...",
+    "errorInvalidCredentials": "Incorrect email or password.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "demoCredentials": "Demo accounts (development only)",
+    "demoStaff": "Fill staff account",
+    "demoClient": "Fill client account"
+  },
+  "portal": {
+    "title": "Client Portal",
+    "welcome": "Welcome back",
+    "comingSoon": "Your events, invoices, and documents will appear here soon.",
+    "userRole": "Client"
   },
   "app": {
     "sidebar": {
