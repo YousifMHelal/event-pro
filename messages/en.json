@@ -292,5 +292,90 @@
       "cancel": "Cancel",
       "error": "Something went wrong. Please check the form and try again."
     }
+  },
+  "events": {
+    "title": "Events",
+    "subtitle": "All events across your organization",
+    "newEvent": "New Event",
+    "status": {
+      "draft": "Draft",
+      "confirmed": "Confirmed",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "list": {
+      "empty": "No events yet",
+      "columnEvent": "Event",
+      "columnClient": "Client",
+      "columnDates": "Dates",
+      "columnVenue": "Venue",
+      "columnBooths": "Booths",
+      "columnRevenue": "Confirmed Revenue",
+      "columnStatus": "Status",
+      "columnActions": "Actions",
+      "noVenue": "—"
+    },
+    "detail": {
+      "back": "Back to events",
+      "client": "Client",
+      "venue": "Venue",
+      "noVenue": "No venue set",
+      "dates": "Dates",
+      "description": "Description",
+      "noDescription": "No description provided.",
+      "createdAt": "Created",
+      "boothsBooked": "Booths Booked",
+      "boothsBookedDesc": "{booked} of {total} booths booked",
+      "revenueProgress": "Revenue Collected",
+      "revenueProgressDesc": "{collected} of {expected} collected",
+      "noRevenue": "No confirmed booth bookings yet"
+    },
+    "participants": {
+      "title": "Participants",
+      "subtitle": "Clients with booth bookings for this event",
+      "empty": "No participants yet",
+      "columnClient": "Client",
+      "columnBooths": "Booths",
+      "columnAmountPaid": "Amount Paid",
+      "columnTotal": "Total",
+      "columnStatus": "Payment Status"
+    },
+    "paymentStatus": {
+      "draft": "Draft",
+      "sent": "Invoiced",
+      "partially_paid": "Partially Paid",
+      "paid": "Paid",
+      "overdue": "Overdue",
+      "cancelled": "Cancelled",
+      "no_invoice": "No Invoice"
+    },
+    "dialog": {
+      "createTitle": "New Event",
+      "editTitle": "Edit Event",
+      "description": "Add or update event details, schedule, and venue.",
+      "nameAr": "Name (Arabic)",
+      "nameEn": "Name (English)",
+      "client": "Client",
+      "selectClientPlaceholder": "Select a client",
+      "status": "Status",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "venueAr": "Venue (Arabic)",
+      "venueEn": "Venue (English)",
+      "descriptionAr": "Description (Arabic)",
+      "descriptionEn": "Description (English)",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "error": "Something went wrong. Please check the form and try again."
+    },
+    "deleteDialog": {
+      "title": "Delete event",
+      "description": "Are you sure you want to delete \"{name}\"? This will also remove its booths, bookings, and production orders. This action cannot be undone.",
+      "confirm": "Delete",
+      "deleting": "Deleting...",
+      "cancel": "Cancel"
+    }
   }
 }

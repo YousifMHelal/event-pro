@@ -292,5 +292,90 @@
       "cancel": "إلغاء",
       "error": "حدث خطأ ما. يرجى التحقق من النموذج والمحاولة مرة أخرى."
     }
+  },
+  "events": {
+    "title": "الفعاليات",
+    "subtitle": "جميع الفعاليات في المؤسسة",
+    "newEvent": "فعالية جديدة",
+    "status": {
+      "draft": "مسودة",
+      "confirmed": "مؤكدة",
+      "in_progress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "cancelled": "ملغاة"
+    },
+    "list": {
+      "empty": "لا توجد فعاليات بعد",
+      "columnEvent": "الفعالية",
+      "columnClient": "العميل",
+      "columnDates": "التواريخ",
+      "columnVenue": "المكان",
+      "columnBooths": "الأجنحة",
+      "columnRevenue": "الإيرادات المؤكدة",
+      "columnStatus": "الحالة",
+      "columnActions": "الإجراءات",
+      "noVenue": "—"
+    },
+    "detail": {
+      "back": "العودة إلى الفعاليات",
+      "client": "العميل",
+      "venue": "المكان",
+      "noVenue": "لم يُحدد مكان",
+      "dates": "التواريخ",
+      "description": "الوصف",
+      "noDescription": "لا يوجد وصف.",
+      "createdAt": "تاريخ الإنشاء",
+      "boothsBooked": "الأجنحة المحجوزة",
+      "boothsBookedDesc": "تم حجز {booked} من {total} جناح",
+      "revenueProgress": "الإيرادات المحصّلة",
+      "revenueProgressDesc": "تم تحصيل {collected} من {expected}",
+      "noRevenue": "لا توجد حجوزات أجنحة مؤكدة بعد"
+    },
+    "participants": {
+      "title": "المشاركون",
+      "subtitle": "العملاء الذين لديهم حجوزات أجنحة في هذه الفعالية",
+      "empty": "لا يوجد مشاركون بعد",
+      "columnClient": "العميل",
+      "columnBooths": "الأجنحة",
+      "columnAmountPaid": "المبلغ المدفوع",
+      "columnTotal": "الإجمالي",
+      "columnStatus": "حالة الدفع"
+    },
+    "paymentStatus": {
+      "draft": "مسودة",
+      "sent": "تم إصدار الفاتورة",
+      "partially_paid": "مدفوع جزئيًا",
+      "paid": "مدفوع",
+      "overdue": "متأخر",
+      "cancelled": "ملغى",
+      "no_invoice": "بدون فاتورة"
+    },
+    "dialog": {
+      "createTitle": "فعالية جديدة",
+      "editTitle": "تعديل الفعالية",
+      "description": "أضف أو حدّث تفاصيل الفعالية والجدول والمكان.",
+      "nameAr": "الاسم (عربي)",
+      "nameEn": "الاسم (إنجليزي)",
+      "client": "العميل",
+      "selectClientPlaceholder": "اختر عميلاً",
+      "status": "الحالة",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء",
+      "venueAr": "المكان (عربي)",
+      "venueEn": "المكان (إنجليزي)",
+      "descriptionAr": "الوصف (عربي)",
+      "descriptionEn": "الوصف (إنجليزي)",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ...",
+      "cancel": "إلغاء",
+      "error": "حدث خطأ ما. يرجى التحقق من النموذج والمحاولة مرة أخرى."
+    },
+    "deleteDialog": {
+      "title": "حذف الفعالية",
+      "description": "هل أنت متأكد من حذف \"{name}\"؟ سيؤدي ذلك أيضًا إلى حذف الأجنحة والحجوزات وأوامر الإنتاج المرتبطة بها. لا يمكن التراجع عن هذا الإجراء.",
+      "confirm": "حذف",
+      "deleting": "جارٍ الحذف...",
+      "cancel": "إلغاء"
+    }
   }
 }
