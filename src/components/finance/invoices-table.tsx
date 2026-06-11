@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { InvoiceStatusBadge } from "@/components/finance/invoice-status-badge";
 import { RecordPaymentDialog } from "@/components/finance/record-payment-dialog";
+import { EmptyState } from "@/components/ui/empty-state";
 import { formatSar } from "@/lib/utils";
 import type { InvoiceItem } from "@/lib/finance-types";
 
@@ -37,18 +38,89 @@ export function InvoicesTable({ invoices }: InvoicesTableProps) {
 
   if (invoices.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface px-6 py-16 text-center shadow-card">
-        <span className="flex size-12 items-center justify-center rounded-full bg-surface-muted text-primary">
-          <Receipt className="size-6" aria-hidden="true" />
-        </span>
-        <p className="text-sm text-foreground-muted">{t("invoices.noInvoices")}</p>
-      </div>
+      <EmptyState
+        icon={Receipt}
+        title={t("invoices.noInvoices")}
+        description={t("invoices.noInvoicesDescription")}
+      />
     );
   }
 
   return (
     <>
-      <div className="overflow-hidden rounded-lg border border-border bg-surface shadow-card">
+      {/* Mobile card list */}
+      <div className="flex flex-col gap-3 lg:hidden">
+        {invoices.map((invoice) => {
+          const clientName = locale === "ar" ? invoice.clientNameAr : invoice.clientNameEn;
+          const eventName = locale === "ar" ? invoice.eventNameAr : invoice.eventNameEn;
+          const canRecordPayment =
+            invoice.balance > 0 && invoice.status !== "cancelled" && invoice.status !== "draft";
+
+          return (
+            <div
+              key={invoice.id}
+              className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-4 shadow-card"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <p className="font-medium text-foreground">{invoice.number}</p>
+                  <p className="text-sm text-foreground-muted">{clientName}</p>
+                </div>
+                <InvoiceStatusBadge status={invoice.status} label={t(`status.${invoice.status}`)} />
+              </div>
+
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <div>
+                  <dt className="text-foreground-muted">{t("invoices.columnEvent")}</dt>
+                  <dd className="text-foreground">{eventName ?? t("invoices.noEvent")}</dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("invoices.columnDueDate")}</dt>
+                  <dd className="text-foreground">
+                    {formatDate(invoice.dueDate, locale) ?? t("invoices.noDueDate")}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("invoices.columnIssueDate")}</dt>
+                  <dd className="text-foreground">{formatDate(invoice.issueDate, locale)}</dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("invoices.columnPaid")}</dt>
+                  <dd className="tabular-nums text-success">
+                    {formatSar(invoice.paidAmount, locale)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("invoices.columnTotal")}</dt>
+                  <dd className="tabular-nums text-foreground">
+                    {formatSar(invoice.totalAmount, locale)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("invoices.columnBalance")}</dt>
+                  <dd className="font-medium tabular-nums text-foreground">
+                    {formatSar(invoice.balance, locale)}
+                  </dd>
+                </div>
+              </dl>
+
+              {canRecordPayment && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setPaymentInvoice(invoice)}
+                >
+                  {t("invoices.recordPayment")}
+                </Button>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden overflow-hidden rounded-lg border border-border bg-surface shadow-card lg:block">
         <Table>
           <TableHeader>
             <TableRow>

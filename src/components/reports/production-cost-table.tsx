@@ -10,6 +10,7 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
+import { EmptyState } from "@/components/ui/empty-state";
 import { formatSar, formatNumber } from "@/lib/utils";
 import type { ProductionCostRow } from "@/lib/reports-types";
 
@@ -22,14 +23,7 @@ export function ProductionCostTable({ rows }: ProductionCostTableProps) {
   const locale = useLocale();
 
   if (rows.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface px-6 py-16 text-center shadow-card">
-        <span className="flex size-12 items-center justify-center rounded-full bg-surface-muted text-primary">
-          <Hammer className="size-6" aria-hidden="true" />
-        </span>
-        <p className="text-sm text-foreground-muted">{t("noData")}</p>
-      </div>
-    );
+    return <EmptyState icon={Hammer} title={t("noData")} />;
   }
 
   return (

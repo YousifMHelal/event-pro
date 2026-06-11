@@ -20,7 +20,10 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
-    "back": "Back"
+    "back": "Back",
+    "errorTitle": "Something went wrong",
+    "errorDescription": "We couldn't load this page. Please try again.",
+    "retry": "Try again"
   },
   "localeSwitcher": {
     "label": "Language",
@@ -259,13 +262,16 @@
     "card": {
       "noOwner": "Unassigned",
       "expectedClose": "Expected close",
-      "noCloseDate": "No date set"
+      "noCloseDate": "No date set",
+      "edit": "Edit opportunity",
+      "delete": "Delete opportunity"
     },
     "board": {
       "empty": "No opportunities in this stage",
       "addOpportunity": "Add opportunity",
       "moveError": "Couldn't move the opportunity. Please try again.",
-      "moveAnnouncement": "{title} moved to {stage}"
+      "moveAnnouncement": "{title} moved to {stage}",
+      "moveToStage": "Move to stage"
     },
     "dialog": {
       "createTitle": "New Opportunity",
@@ -294,6 +300,13 @@
       "saving": "Saving...",
       "cancel": "Cancel",
       "error": "Something went wrong. Please check the form and try again."
+    },
+    "deleteDialog": {
+      "title": "Delete opportunity",
+      "description": "Are you sure you want to delete \"{title}\"? This action cannot be undone.",
+      "confirm": "Delete",
+      "deleting": "Deleting...",
+      "cancel": "Cancel"
     }
   },
   "events": {
@@ -309,6 +322,7 @@
     },
     "list": {
       "empty": "No events yet",
+      "emptyDescription": "Create your first event to start tracking bookings, booths, and revenue.",
       "columnEvent": "Event",
       "columnClient": "Client",
       "columnDates": "Dates",
@@ -619,6 +633,7 @@
     "invoices": {
       "title": "Invoices",
       "noInvoices": "No invoices yet",
+      "noInvoicesDescription": "Invoices are created automatically when a client confirms a booking.",
       "columnNumber": "Invoice #",
       "columnClient": "Client",
       "columnEvent": "Event",

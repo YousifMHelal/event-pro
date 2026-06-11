@@ -133,3 +133,23 @@ export async function upsertOpportunity(
   revalidatePath("/[locale]/(app)/clients", "page");
   return { success: true };
 }
+
+export type DeleteOpportunityState = {
+  error?: "generic";
+  success?: boolean;
+};
+
+export async function deleteOpportunity(
+  opportunityId: string,
+): Promise<DeleteOpportunityState> {
+  if (!opportunityId) return { error: "generic" };
+
+  try {
+    await prisma.opportunity.delete({ where: { id: opportunityId } });
+  } catch {
+    return { error: "generic" };
+  }
+
+  revalidatePath("/[locale]/(app)/clients", "page");
+  return { success: true };
+}

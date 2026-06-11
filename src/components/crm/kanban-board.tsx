@@ -16,6 +16,8 @@ import {
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { useTranslations, useLocale } from "next-intl";
+import { Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { KanbanColumn } from "@/components/crm/kanban-column";
 import { OpportunityCard } from "@/components/crm/opportunity-card";
 import { OpportunityDialog } from "@/components/crm/opportunity-dialog";
@@ -72,6 +74,8 @@ export function KanbanBoard({
   const [announcement, setAnnouncement] = useState("");
   const [, startTransition] = useTransition();
 
+  const [mobileStage, setMobileStage] = useState<OpportunityStage>("lead");
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingOpportunity, setEditingOpportunity] = useState<
     PipelineOpportunity | undefined
@@ -111,28 +115,8 @@ export function KanbanBoard({
     return grouped;
   }, [opportunities]);
 
-  function handleDragStart(event: DragStartEvent) {
-    const opp = opportunities.find((o) => o.id === event.active.id);
-    setActiveOpportunity(opp ?? null);
-  }
-
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    setActiveOpportunity(null);
-    if (!over) return;
-
-    const activeOpp = opportunities.find((o) => o.id === active.id);
-    if (!activeOpp) return;
-
-    // Dropping on another card means landing in that card's column;
-    // dropping directly on a column targets that column.
-    const overData = over.data.current;
-    const targetStage: OpportunityStage =
-      overData?.type === "column"
-        ? (overData.stage as OpportunityStage)
-        : (overData?.opportunity as PipelineOpportunity)?.stage;
-
-    if (!targetStage || targetStage === activeOpp.stage) return;
+  function moveOpportunity(activeOpp: PipelineOpportunity, targetStage: OpportunityStage) {
+    if (targetStage === activeOpp.stage) return;
 
     const previousStage = activeOpp.stage;
 
@@ -164,6 +148,31 @@ export function KanbanBoard({
     });
   }
 
+  function handleDragStart(event: DragStartEvent) {
+    const opp = opportunities.find((o) => o.id === event.active.id);
+    setActiveOpportunity(opp ?? null);
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    setActiveOpportunity(null);
+    if (!over) return;
+
+    const activeOpp = opportunities.find((o) => o.id === active.id);
+    if (!activeOpp) return;
+
+    // Dropping on another card means landing in that card's column;
+    // dropping directly on a column targets that column.
+    const overData = over.data.current;
+    const targetStage: OpportunityStage =
+      overData?.type === "column"
+        ? (overData.stage as OpportunityStage)
+        : (overData?.opportunity as PipelineOpportunity)?.stage;
+
+    if (!targetStage) return;
+    moveOpportunity(activeOpp, targetStage);
+  }
+
   function handleCardClick(opportunity: PipelineOpportunity) {
     setEditingOpportunity(opportunity);
     setDialogOpen(true);
@@ -177,35 +186,98 @@ export function KanbanBoard({
 
   return (
     <div dir={isRtl ? "rtl" : "ltr"}>
-      <DndContext
-        id="opportunity-pipeline"
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <div className="flex gap-4 overflow-x-auto pb-4">
+      {/* Mobile: stage switcher + single column */}
+      <div className="lg:hidden">
+        <div className="flex gap-2 overflow-x-auto pb-3" role="tablist">
           {PIPELINE_STAGES.map((stage) => (
-            <KanbanColumn
+            <button
               key={stage}
-              stage={stage}
-              label={tStages(stage)}
-              opportunities={columns[stage]}
-              onCardClick={handleCardClick}
-              onAddClick={handleAddClick}
-            />
+              type="button"
+              role="tab"
+              aria-selected={mobileStage === stage}
+              onClick={() => setMobileStage(stage)}
+              className={cn(
+                "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                mobileStage === stage
+                  ? "border-primary bg-primary text-white"
+                  : "border-border bg-surface text-foreground-muted hover:bg-neutral-50",
+              )}
+            >
+              {tStages(stage)}
+              <span
+                className={cn(
+                  "rounded-full px-1.5 py-0.5 text-xs tabular-nums",
+                  mobileStage === stage
+                    ? "bg-white/20"
+                    : "bg-surface-muted text-foreground-muted",
+                )}
+              >
+                {columns[stage].length}
+              </span>
+            </button>
           ))}
         </div>
 
-        <DragOverlay>
-          {activeOpportunity ? (
-            <OpportunityCard
-              opportunity={activeOpportunity}
-              onClick={() => {}}
-            />
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+        <div className="flex flex-col gap-3">
+          <button
+            type="button"
+            onClick={() => handleAddClick(mobileStage)}
+            className="border-border text-foreground-muted hover:text-foreground hover:bg-neutral-50 focus-visible:ring-ring flex items-center justify-center gap-1.5 rounded-lg border border-dashed py-2.5 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none"
+          >
+            <Plus className="size-4" aria-hidden="true" />
+            {t("addOpportunity")}
+          </button>
+
+          {columns[mobileStage].length === 0 ? (
+            <p className="text-foreground-muted flex items-center justify-center rounded-lg border border-dashed border-border p-8 text-center text-sm">
+              {t("empty")}
+            </p>
+          ) : (
+            columns[mobileStage].map((opportunity) => (
+              <OpportunityCard
+                key={opportunity.id}
+                opportunity={opportunity}
+                onClick={() => handleCardClick(opportunity)}
+                onMoveStage={(stage) => moveOpportunity(opportunity, stage)}
+              />
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Desktop: full drag-and-drop kanban */}
+      <div className="hidden lg:block">
+        <DndContext
+          id="opportunity-pipeline"
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="flex gap-4 overflow-x-auto pb-4">
+            {PIPELINE_STAGES.map((stage) => (
+              <KanbanColumn
+                key={stage}
+                stage={stage}
+                label={tStages(stage)}
+                opportunities={columns[stage]}
+                onCardClick={handleCardClick}
+                onAddClick={handleAddClick}
+              />
+            ))}
+          </div>
+
+          <DragOverlay>
+            {activeOpportunity ? (
+              <OpportunityCard
+                opportunity={activeOpportunity}
+                onClick={() => {}}
+              />
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+      </div>
 
       {/* Live region for screen-reader announcements of stage moves */}
       <div role="status" aria-live="polite" className="sr-only">

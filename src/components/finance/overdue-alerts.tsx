@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { EmptyState } from "@/components/ui/empty-state";
 import { formatSar } from "@/lib/utils";
 import { sendReminder } from "@/app/[locale]/(app)/finance/actions";
 import type { OverdueInvoiceItem } from "@/lib/finance-types";
@@ -38,12 +39,11 @@ export function OverdueAlerts({ invoices }: OverdueAlertsProps) {
 
   if (invoices.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface px-6 py-16 text-center shadow-card">
-        <span className="flex size-12 items-center justify-center rounded-full bg-success-surface text-success">
-          <CheckCircle2 className="size-6" aria-hidden="true" />
-        </span>
-        <p className="text-sm text-foreground-muted">{t("overdue.none")}</p>
-      </div>
+      <EmptyState
+        icon={CheckCircle2}
+        title={t("overdue.none")}
+        iconClassName="bg-success-surface text-success"
+      />
     );
   }
 
@@ -61,73 +61,142 @@ export function OverdueAlerts({ invoices }: OverdueAlertsProps) {
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-border bg-surface shadow-card">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t("invoices.columnNumber")}</TableHead>
-            <TableHead>{t("invoices.columnClient")}</TableHead>
-            <TableHead>{t("invoices.columnDueDate")}</TableHead>
-            <TableHead>{t("overdue.columnDaysOverdue")}</TableHead>
-            <TableHead className="text-end">{t("overdue.balance")}</TableHead>
-            <TableHead className="text-end">{t("invoices.columnActions")}</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice) => {
-            const clientName = locale === "ar" ? invoice.clientNameAr : invoice.clientNameEn;
-            const sent = sentIds.has(invoice.id);
+    <>
+      {/* Mobile card list */}
+      <div className="flex flex-col gap-3 lg:hidden">
+        {invoices.map((invoice) => {
+          const clientName = locale === "ar" ? invoice.clientNameAr : invoice.clientNameEn;
+          const sent = sentIds.has(invoice.id);
 
-            return (
-              <TableRow key={invoice.id}>
-                <TableCell className="font-medium">{invoice.number}</TableCell>
-                <TableCell>{clientName}</TableCell>
-                <TableCell className="text-foreground-muted">
-                  {formatDate(invoice.dueDate, locale)}
-                </TableCell>
-                <TableCell>
-                  <Badge variant="danger">
-                    {t("overdue.daysOverdue", { days: invoice.daysOverdue })}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-end font-medium tabular-nums">
-                  {formatSar(invoice.balance, locale)}
-                </TableCell>
-                <TableCell className="text-end">
-                  <div className="flex flex-col items-end gap-1">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      disabled={sent}
-                      loading={sendingId === invoice.id}
-                      onClick={() => handleSendReminder(invoice.id)}
-                    >
-                      {sent ? (
-                        <>
-                          <CheckCircle2 className="size-4" aria-hidden="true" />
-                          {t("overdue.reminderSent")}
-                        </>
-                      ) : sendingId === invoice.id ? (
-                        t("overdue.sending")
-                      ) : (
-                        <>
-                          <Mail className="size-4" aria-hidden="true" />
-                          {t("overdue.sendReminder")}
-                        </>
+          return (
+            <div
+              key={invoice.id}
+              className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-4 shadow-card"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <p className="font-medium text-foreground">{invoice.number}</p>
+                  <p className="text-sm text-foreground-muted">{clientName}</p>
+                </div>
+                <Badge variant="danger">
+                  {t("overdue.daysOverdue", { days: invoice.daysOverdue })}
+                </Badge>
+              </div>
+
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <div>
+                  <dt className="text-foreground-muted">{t("invoices.columnDueDate")}</dt>
+                  <dd className="text-foreground">{formatDate(invoice.dueDate, locale)}</dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("overdue.balance")}</dt>
+                  <dd className="font-medium tabular-nums text-foreground">
+                    {formatSar(invoice.balance, locale)}
+                  </dd>
+                </div>
+              </dl>
+
+              <Button
+                size="sm"
+                variant="outline"
+                className="w-full"
+                disabled={sent}
+                loading={sendingId === invoice.id}
+                onClick={() => handleSendReminder(invoice.id)}
+              >
+                {sent ? (
+                  <>
+                    <CheckCircle2 className="size-4" aria-hidden="true" />
+                    {t("overdue.reminderSent")}
+                  </>
+                ) : sendingId === invoice.id ? (
+                  t("overdue.sending")
+                ) : (
+                  <>
+                    <Mail className="size-4" aria-hidden="true" />
+                    {t("overdue.sendReminder")}
+                  </>
+                )}
+              </Button>
+              {errorId === invoice.id && (
+                <p role="alert" className="text-xs text-danger">
+                  {t("overdue.errorGeneric")}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden overflow-hidden rounded-lg border border-border bg-surface shadow-card lg:block">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>{t("invoices.columnNumber")}</TableHead>
+              <TableHead>{t("invoices.columnClient")}</TableHead>
+              <TableHead>{t("invoices.columnDueDate")}</TableHead>
+              <TableHead>{t("overdue.columnDaysOverdue")}</TableHead>
+              <TableHead className="text-end">{t("overdue.balance")}</TableHead>
+              <TableHead className="text-end">{t("invoices.columnActions")}</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {invoices.map((invoice) => {
+              const clientName = locale === "ar" ? invoice.clientNameAr : invoice.clientNameEn;
+              const sent = sentIds.has(invoice.id);
+
+              return (
+                <TableRow key={invoice.id}>
+                  <TableCell className="font-medium">{invoice.number}</TableCell>
+                  <TableCell>{clientName}</TableCell>
+                  <TableCell className="text-foreground-muted">
+                    {formatDate(invoice.dueDate, locale)}
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="danger">
+                      {t("overdue.daysOverdue", { days: invoice.daysOverdue })}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-end font-medium tabular-nums">
+                    {formatSar(invoice.balance, locale)}
+                  </TableCell>
+                  <TableCell className="text-end">
+                    <div className="flex flex-col items-end gap-1">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={sent}
+                        loading={sendingId === invoice.id}
+                        onClick={() => handleSendReminder(invoice.id)}
+                      >
+                        {sent ? (
+                          <>
+                            <CheckCircle2 className="size-4" aria-hidden="true" />
+                            {t("overdue.reminderSent")}
+                          </>
+                        ) : sendingId === invoice.id ? (
+                          t("overdue.sending")
+                        ) : (
+                          <>
+                            <Mail className="size-4" aria-hidden="true" />
+                            {t("overdue.sendReminder")}
+                          </>
+                        )}
+                      </Button>
+                      {errorId === invoice.id && (
+                        <p role="alert" className="text-xs text-danger">
+                          {t("overdue.errorGeneric")}
+                        </p>
                       )}
-                    </Button>
-                    {errorId === invoice.id && (
-                      <p role="alert" className="text-xs text-danger">
-                        {t("overdue.errorGeneric")}
-                      </p>
-                    )}
-                  </div>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </div>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   );
 }

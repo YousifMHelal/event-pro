@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import { EventStatusBadge } from "@/components/events/event-status-badge";
 import { ProfitChart } from "@/components/reports/profit-chart";
+import { EmptyState } from "@/components/ui/empty-state";
 import { formatSar } from "@/lib/utils";
 import type { EventProfitRow } from "@/lib/reports-types";
 
@@ -25,14 +26,7 @@ export function ProfitSection({ rows }: ProfitSectionProps) {
   const locale = useLocale();
 
   if (rows.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface px-6 py-16 text-center shadow-card">
-        <span className="flex size-12 items-center justify-center rounded-full bg-surface-muted text-primary">
-          <TrendingUp className="size-6" aria-hidden="true" />
-        </span>
-        <p className="text-sm text-foreground-muted">{t("noData")}</p>
-      </div>
-    );
+    return <EmptyState icon={TrendingUp} title={t("noData")} />;
   }
 
   return (
@@ -49,7 +43,63 @@ export function ProfitSection({ rows }: ProfitSectionProps) {
         </CardContent>
       </Card>
 
-      <div className="overflow-hidden rounded-lg border border-border bg-surface shadow-card">
+      {/* Mobile card list */}
+      <div className="flex flex-col gap-3 lg:hidden">
+        {rows.map((row) => {
+          const name = locale === "ar" ? row.eventNameAr : row.eventNameEn;
+          return (
+            <div
+              key={row.eventId}
+              className="flex flex-col gap-3 rounded-lg border border-border bg-surface p-4 shadow-card"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <p className="font-medium text-foreground">{name}</p>
+                <EventStatusBadge status={row.status} />
+              </div>
+
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <div>
+                  <dt className="text-foreground-muted">{t("columnTicketRevenue")}</dt>
+                  <dd className="tabular-nums text-foreground-muted">
+                    {formatSar(row.ticketRevenueHalalas, locale)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("columnBoothRevenue")}</dt>
+                  <dd className="tabular-nums text-foreground-muted">
+                    {formatSar(row.boothRevenueHalalas, locale)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("columnRevenue")}</dt>
+                  <dd className="tabular-nums text-foreground">
+                    {formatSar(row.totalRevenueHalalas, locale)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("columnCost")}</dt>
+                  <dd className="tabular-nums text-warn">
+                    {formatSar(row.productionCostHalalas, locale)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-foreground-muted">{t("columnProfit")}</dt>
+                  <dd
+                    className={`font-semibold tabular-nums ${
+                      row.profitHalalas >= 0 ? "text-success" : "text-danger"
+                    }`}
+                  >
+                    {formatSar(row.profitHalalas, locale)}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden overflow-hidden rounded-lg border border-border bg-surface shadow-card lg:block">
         <Table>
           <TableHeader>
             <TableRow>

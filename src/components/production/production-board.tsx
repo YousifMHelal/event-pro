@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { EmptyState } from "@/components/ui/empty-state";
 import { ProductionOrderCard } from "@/components/production/production-order-card";
 import type { ProductionOrderItem, ProductionEventOption } from "@/lib/production-types";
 
@@ -46,12 +47,7 @@ export function ProductionBoard({ events, selectedEventId, orders }: ProductionB
       </div>
 
       {orders.length === 0 ? (
-        <div className="flex h-48 items-center justify-center rounded-xl border border-dashed border-border text-sm text-foreground-muted">
-          <div className="flex flex-col items-center gap-2">
-            <ClipboardList className="size-6 text-foreground-muted" aria-hidden="true" />
-            <span>{t("noOrders")}</span>
-          </div>
-        </div>
+        <EmptyState icon={ClipboardList} title={t("noOrders")} />
       ) : (
         <div className="grid gap-5 sm:grid-cols-1 lg:grid-cols-2">
           {orders.map((order) => (

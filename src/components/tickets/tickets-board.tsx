@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import { TicketTypeCard } from "@/components/tickets/ticket-type-card";
 import { AddTicketTypeDialog } from "@/components/tickets/add-ticket-type-dialog";
 import type { TicketTypeItem, TicketEventOption } from "@/lib/tickets-types";
@@ -61,16 +62,18 @@ export function TicketsBoard({ events, selectedEventId, ticketTypes }: TicketsBo
 
       {/* Ticket types grid */}
       {ticketTypes.length === 0 ? (
-        <div className="flex h-52 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border text-sm text-foreground-muted">
-          <Ticket className="size-6" aria-hidden="true" />
-          <span>{selectedEventId ? t("noTypes") : t("selectEventPrompt")}</span>
-          {selectedEventId && (
-            <Button variant="outline" size="sm" onClick={() => setAddTypeOpen(true)}>
-              <Plus aria-hidden="true" />
-              {t("addTicketType")}
-            </Button>
-          )}
-        </div>
+        <EmptyState
+          icon={Ticket}
+          title={selectedEventId ? t("noTypes") : t("selectEventPrompt")}
+          action={
+            selectedEventId && (
+              <Button variant="outline" size="sm" onClick={() => setAddTypeOpen(true)}>
+                <Plus aria-hidden="true" />
+                {t("addTicketType")}
+              </Button>
+            )
+          }
+        />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {ticketTypes.map((tt) => (

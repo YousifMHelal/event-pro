@@ -5,6 +5,7 @@ import {
   getTicketTypesForEvent,
 } from "@/lib/tickets";
 import { TicketsBoard } from "@/components/tickets/tickets-board";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface TicketsPageProps {
   searchParams: Promise<{ eventId?: string }>;
@@ -42,12 +43,7 @@ export default async function TicketsPage({ searchParams }: TicketsPageProps) {
       </div>
 
       {allEvents.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface px-6 py-16 text-center shadow-card">
-          <span className="flex size-12 items-center justify-center rounded-full bg-surface-muted text-primary">
-            <Ticket className="size-6" aria-hidden="true" />
-          </span>
-          <p className="text-sm text-foreground-muted">{t("noEvents")}</p>
-        </div>
+        <EmptyState icon={Ticket} title={t("noEvents")} />
       ) : (
         <TicketsBoard
           events={eventOptions}

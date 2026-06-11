@@ -5,6 +5,7 @@ import {
   getProductionOrdersForEvent,
 } from "@/lib/production";
 import { ProductionBoard } from "@/components/production/production-board";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface ProductionPageProps {
   searchParams: Promise<{ eventId?: string }>;
@@ -32,12 +33,7 @@ export default async function ProductionPage({ searchParams }: ProductionPagePro
       </div>
 
       {events.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface px-6 py-16 text-center shadow-card">
-          <span className="flex size-12 items-center justify-center rounded-full bg-surface-muted text-primary">
-            <Clapperboard className="size-6" aria-hidden="true" />
-          </span>
-          <p className="text-sm text-foreground-muted">{t("noEvents")}</p>
-        </div>
+        <EmptyState icon={Clapperboard} title={t("noEvents")} />
       ) : (
         <ProductionBoard
           events={events}

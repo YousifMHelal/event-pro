@@ -20,7 +20,10 @@
     "cancel": "إلغاء",
     "delete": "حذف",
     "edit": "تعديل",
-    "back": "رجوع"
+    "back": "رجوع",
+    "errorTitle": "حدث خطأ ما",
+    "errorDescription": "تعذر تحميل هذه الصفحة. يرجى المحاولة مرة أخرى.",
+    "retry": "إعادة المحاولة"
   },
   "localeSwitcher": {
     "label": "اللغة",
@@ -259,13 +262,16 @@
     "card": {
       "noOwner": "غير مسند",
       "expectedClose": "تاريخ الإغلاق المتوقع",
-      "noCloseDate": "لم يُحدد تاريخ"
+      "noCloseDate": "لم يُحدد تاريخ",
+      "edit": "تعديل الفرصة",
+      "delete": "حذف الفرصة"
     },
     "board": {
       "empty": "لا توجد فرص في هذه المرحلة",
       "addOpportunity": "إضافة فرصة",
       "moveError": "تعذر نقل الفرصة. حاول مرة أخرى.",
-      "moveAnnouncement": "تم نقل {title} إلى {stage}"
+      "moveAnnouncement": "تم نقل {title} إلى {stage}",
+      "moveToStage": "نقل إلى مرحلة"
     },
     "dialog": {
       "createTitle": "فرصة جديدة",
@@ -294,6 +300,13 @@
       "saving": "جارٍ الحفظ...",
       "cancel": "إلغاء",
       "error": "حدث خطأ ما. يرجى التحقق من النموذج والمحاولة مرة أخرى."
+    },
+    "deleteDialog": {
+      "title": "حذف الفرصة",
+      "description": "هل أنت متأكد من حذف \"{title}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+      "confirm": "حذف",
+      "deleting": "جارٍ الحذف...",
+      "cancel": "إلغاء"
     }
   },
   "events": {
@@ -309,6 +322,7 @@
     },
     "list": {
       "empty": "لا توجد فعاليات بعد",
+      "emptyDescription": "أنشئ فعاليتك الأولى لبدء متابعة الحجوزات والأجنحة والإيرادات.",
       "columnEvent": "الفعالية",
       "columnClient": "العميل",
       "columnDates": "التواريخ",
@@ -619,6 +633,7 @@
     "invoices": {
       "title": "الفواتير",
       "noInvoices": "لا توجد فواتير بعد",
+      "noInvoicesDescription": "يتم إنشاء الفواتير تلقائيًا عند تأكيد العميل لحجزه.",
       "columnNumber": "رقم الفاتورة",
       "columnClient": "العميل",
       "columnEvent": "الفعالية",

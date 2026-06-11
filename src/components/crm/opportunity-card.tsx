@@ -1,25 +1,41 @@
 "use client";
 
 import * as React from "react";
+import { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useTranslations, useLocale } from "next-intl";
-import { Calendar, GripVertical, User } from "lucide-react";
+import { Calendar, GripVertical, Pencil, Trash2, User } from "lucide-react";
 import { formatSar } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import type { PipelineOpportunity } from "@/lib/crm-types";
+import { DeleteOpportunityDialog } from "@/components/crm/delete-opportunity-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { PIPELINE_STAGES, type PipelineOpportunity } from "@/lib/crm-types";
+import type { OpportunityStage } from "@/generated/prisma/enums";
 
 interface OpportunityCardProps {
   opportunity: PipelineOpportunity;
   onClick: () => void;
+  /** When provided, renders a stage selector instead of the drag handle (mobile single-column view). */
+  onMoveStage?: (stage: OpportunityStage) => void;
 }
 
 export function OpportunityCard({
   opportunity,
   onClick,
+  onMoveStage,
 }: OpportunityCardProps) {
   const t = useTranslations("crm.card");
+  const tBoard = useTranslations("crm.board");
+  const tStages = useTranslations("crm.stages");
   const locale = useLocale();
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const {
     attributes,
@@ -74,15 +90,35 @@ export function OpportunityCard({
         >
           {title}
         </button>
-        <button
-          type="button"
-          className="text-foreground-muted focus-visible:ring-ring -m-1 cursor-grab touch-none rounded-sm p-1 transition-colors hover:bg-neutral-100 focus-visible:ring-2 focus-visible:outline-none active:cursor-grabbing"
-          aria-label={title}
-          {...attributes}
-          {...listeners}
-        >
-          <GripVertical className="size-4" aria-hidden="true" />
-        </button>
+        <div className="flex items-center gap-0.5">
+          <button
+            type="button"
+            onClick={onClick}
+            className="text-foreground-muted focus-visible:ring-ring -m-1 rounded-sm p-1 transition-colors hover:bg-neutral-100 hover:text-foreground focus-visible:ring-2 focus-visible:outline-none"
+            aria-label={t("edit")}
+          >
+            <Pencil className="size-4" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setDeleteOpen(true)}
+            className="text-foreground-muted focus-visible:ring-ring -m-1 rounded-sm p-1 transition-colors hover:bg-danger-surface hover:text-danger focus-visible:ring-2 focus-visible:outline-none"
+            aria-label={t("delete")}
+          >
+            <Trash2 className="size-4" aria-hidden="true" />
+          </button>
+          {!onMoveStage && (
+            <button
+              type="button"
+              className="text-foreground-muted focus-visible:ring-ring -m-1 cursor-grab touch-none rounded-sm p-1 transition-colors hover:bg-neutral-100 focus-visible:ring-2 focus-visible:outline-none active:cursor-grabbing"
+              aria-label={title}
+              {...attributes}
+              {...listeners}
+            >
+              <GripVertical className="size-4" aria-hidden="true" />
+            </button>
+          )}
+        </div>
       </div>
 
       <p className="text-foreground-muted text-sm">{clientName}</p>
@@ -103,6 +139,31 @@ export function OpportunityCard({
           </span>
         </div>
       </div>
+
+      {onMoveStage && (
+        <Select
+          value={opportunity.stage}
+          onValueChange={(value) => onMoveStage(value as OpportunityStage)}
+        >
+          <SelectTrigger aria-label={tBoard("moveToStage")} className="h-9 text-sm">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {PIPELINE_STAGES.map((stage) => (
+              <SelectItem key={stage} value={stage}>
+                {tStages(stage)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
+      <DeleteOpportunityDialog
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
+        opportunityId={opportunity.id}
+        opportunityTitle={title}
+      />
     </div>
   );
 }

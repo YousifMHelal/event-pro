@@ -50,7 +50,7 @@ export function ProductionOrderCard({ order }: ProductionOrderCardProps) {
   return (
     <article className="overflow-hidden rounded-xl border border-border bg-surface shadow-card">
       {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-3 px-5 pt-5 pb-4">
+      <div className="flex flex-wrap items-start justify-between gap-3 px-4 pt-5 pb-4 sm:px-5">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-base font-semibold text-foreground">{name}</h3>
@@ -69,7 +69,7 @@ export function ProductionOrderCard({ order }: ProductionOrderCardProps) {
       </div>
 
       {/* Overall progress bars */}
-      <div className="grid grid-cols-2 gap-4 border-t border-border px-5 py-3">
+      <div className="grid grid-cols-1 gap-4 border-t border-border px-4 py-3 sm:grid-cols-2 sm:px-5">
         <ProgressMini
           label={t("stepsProgress", { done: completedSteps, total: totalSteps })}
           pct={stepPct}
@@ -111,12 +111,12 @@ export function ProductionOrderCard({ order }: ProductionOrderCardProps) {
 
       {/* Expandable body */}
       {section === "steps" && (
-        <div className="border-t border-border px-5 py-4">
+        <div className="border-t border-border px-4 py-4 sm:px-5">
           <WorkflowStepper steps={order.steps} orderId={order.id} />
         </div>
       )}
       {section === "materials" && (
-        <div className="border-t border-border px-5 py-4">
+        <div className="border-t border-border px-4 py-4 sm:px-5">
           <MaterialsChecklist materials={order.materials} />
         </div>
       )}
@@ -173,17 +173,17 @@ function SectionTab({
       onClick={onClick}
       aria-expanded={expanded}
       className={cn(
-        "flex flex-1 cursor-pointer items-center justify-between gap-2 px-5 py-3 text-sm transition-colors duration-150",
+        "flex flex-1 cursor-pointer items-center justify-between gap-2 px-3 py-3 text-sm transition-colors duration-150 sm:px-5",
         "focus-visible:outline-none focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-ring",
         active
           ? "bg-surface-muted font-medium text-primary"
           : "text-foreground-muted hover:bg-neutral-50",
       )}
     >
-      <span className="flex items-center gap-2">
-        {icon}
-        {label}
-        <span className="rounded-full bg-neutral-200 px-1.5 py-0.5 text-xs font-medium tabular-nums text-foreground-muted">
+      <span className="flex min-w-0 items-center gap-2">
+        <span className="shrink-0">{icon}</span>
+        <span className="truncate">{label}</span>
+        <span className="shrink-0 rounded-full bg-neutral-200 px-1.5 py-0.5 text-xs font-medium tabular-nums text-foreground-muted">
           {count}
         </span>
       </span>
